@@ -1,0 +1,7 @@
+/home/excilys/Boulot/computer-database/persistence/src/main/java/com/excilys/lmengozzi/cdb/dao/ICompanyManager.java
+/home/excilys/Boulot/computer-database/persistence/src/main/java/com/excilys/lmengozzi/cdb/dao/ComputerManager.java
+/home/excilys/Boulot/computer-database/persistence/src/main/java/com/excilys/lmengozzi/cdb/dao/ConnectionManager.java
+/home/excilys/Boulot/computer-database/persistence/src/main/java/com/excilys/lmengozzi/cdb/dao/CompanyManager.java
+/home/excilys/Boulot/computer-database/persistence/src/main/java/com/excilys/lmengozzi/cdb/dao/IComputerManager.java
+/home/excilys/Boulot/computer-database/persistence/src/main/java/com/excilys/lmengozzi/cdb/dao/IDAO.java
+/home/excilys/Boulot/computer-database/persistence/src/main/java/com/excilys/lmengozzi/cdb/dao/parser/ComputerMapper.java

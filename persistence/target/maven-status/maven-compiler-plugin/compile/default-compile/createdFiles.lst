@@ -1,0 +1,7 @@
+com/excilys/lmengozzi/cdb/dao/IDAO.class
+com/excilys/lmengozzi/cdb/dao/CompanyManager.class
+com/excilys/lmengozzi/cdb/dao/ICompanyManager.class
+com/excilys/lmengozzi/cdb/dao/ComputerManager.class
+com/excilys/lmengozzi/cdb/dao/IComputerManager.class
+com/excilys/lmengozzi/cdb/dao/ConnectionManager.class
+com/excilys/lmengozzi/cdb/dao/parser/ComputerMapper.class

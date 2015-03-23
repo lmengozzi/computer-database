@@ -1,17 +1,13 @@
 package com.excilys.lmengozzi.cdb;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -142,12 +138,10 @@ public class CliApp {
 	}
 
 	public static void createComputer() {
-		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		String name = null;
 		LocalDateTime introduced = null;
 		LocalDateTime discontinued = null;
-		Long companyId = null;
 
 		DateTimeFormatter formatter = DateTimeFormatter
 				.ofPattern("uuuu/MM/dd HH:mm:ss");

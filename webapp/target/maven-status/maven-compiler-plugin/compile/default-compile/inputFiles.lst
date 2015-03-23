@@ -1,1 +1,3 @@
-/home/excilys/Boulot/computer-database/webapp/src/main/java/com/excilys/lmengozzi/cdb/App.java
+/home/excilys/Boulot/computer-database/webapp/src/main/java/com/excilys/lmengozzi/cdb/webapp/ComputerBackingBean.java
+/home/excilys/Boulot/computer-database/webapp/src/main/java/com/excilys/lmengozzi/cdb/webapp/DashboardServlet.java
+/home/excilys/Boulot/computer-database/webapp/src/main/java/com/excilys/lmengozzi/cdb/webapp/AddComputerServlet.java

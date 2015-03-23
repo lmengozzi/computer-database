@@ -47,14 +47,15 @@ public class ComputerManagerTest {
 		
 	}
 	
+	public void getCountTest() throws SQLException {
+
+	}
+	
 	public void findPage() throws SQLException {
 		
 	}
 
 	
-	public void findAll() throws SQLException {
-		
-	}
 
 	
 	public void delete() throws SQLException {

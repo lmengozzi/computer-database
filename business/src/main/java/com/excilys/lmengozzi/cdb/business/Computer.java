@@ -19,7 +19,7 @@ public class Computer {
 	protected LocalDateTime discontinuedDate;
 	@Size(min = 0, max = 256)
 	protected String manufacturer;
-
+	
 	public Computer() {
 		
 	}

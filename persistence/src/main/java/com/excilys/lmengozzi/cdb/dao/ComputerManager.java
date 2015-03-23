@@ -137,4 +137,18 @@ public class ComputerManager implements IComputerManager {
 		connection.close();
 	}
 
+	@Override
+	public int getCount() throws SQLException {
+		Connection connection = cm.getConnection();
+		PreparedStatement statement = connection
+				.prepareStatement("SELECT count(*) FROM computer");
+		ResultSet resultSet = statement.executeQuery();
+		connection.close();
+		
+		resultSet.next();
+		resultSet.getInt(1);
+		
+		return 0;
+	}
+
 }

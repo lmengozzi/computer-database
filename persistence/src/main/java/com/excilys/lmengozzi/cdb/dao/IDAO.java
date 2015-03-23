@@ -13,5 +13,7 @@ public interface IDAO<T> {
 	
 	void put(T object) throws SQLException;
 	
+	int getCount() throws SQLException;
+	
 	void delete(long id) throws SQLException;
 }

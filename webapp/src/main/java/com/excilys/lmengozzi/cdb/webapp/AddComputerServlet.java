@@ -2,7 +2,7 @@ package com.excilys.lmengozzi.cdb.webapp;
 
 import com.excilys.lmengozzi.cdb.business.Computer;
 import com.excilys.lmengozzi.cdb.business.validation.ComputerValidator;
-import com.excilys.lmengozzi.cdb.dao.ComputerManager;
+import com.excilys.lmengozzi.cdb.persistence.ComputerManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

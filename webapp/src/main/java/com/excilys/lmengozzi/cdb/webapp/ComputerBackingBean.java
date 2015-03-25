@@ -3,7 +3,7 @@ package com.excilys.lmengozzi.cdb.webapp;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.excilys.lmengozzi.cdb.dao.ComputerManager;
+import com.excilys.lmengozzi.cdb.persistence.ComputerManager;
 import com.excilys.lmengozzi.cdb.business.Computer;
 
 import org.slf4j.Logger;

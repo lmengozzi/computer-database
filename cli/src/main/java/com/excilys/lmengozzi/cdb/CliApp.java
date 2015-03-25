@@ -13,8 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.lmengozzi.cdb.business.Computer;
-import com.excilys.lmengozzi.cdb.dao.ComputerManager;
-import com.excilys.lmengozzi.cdb.dao.IDAO;
+import com.excilys.lmengozzi.cdb.persistence.ComputerManager;
+import com.excilys.lmengozzi.cdb.persistence.IDAO;
 
 public class CliApp {
 

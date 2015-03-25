@@ -13,12 +13,7 @@
 <link href="css/main.css" rel="stylesheet" media="screen">
 </head>
 <body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="dashboard.jsp"> Application -
-				Computer Database </a>
-		</div>
-	</header>
+	<jsp:include page="navbar.jsp" />
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">${computerModel.computerCount} Computers found</h1>

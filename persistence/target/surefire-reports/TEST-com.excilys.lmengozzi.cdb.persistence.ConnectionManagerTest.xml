@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="com.excilys.lmengozzi.cdb.persistence.ConnectionManagerTest" time="0.766" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="com.excilys.lmengozzi.cdb.persistence.ConnectionManagerTest" time="0.043" errors="0" skipped="1">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/local/lib/jdk1.8.0_40/jre/lib/amd64"/>
@@ -58,5 +58,7 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.excilys.lmengozzi.cdb.persistence.ConnectionManagerTest" name="connectionTest" time="0.766"/>
+  <testcase classname="com.excilys.lmengozzi.cdb.persistence.ConnectionManagerTest" name="connectionTest" time="0.043">
+    <skipped message="Cli resources path incompatible with webapp"/>
+  </testcase>
 </testsuite>

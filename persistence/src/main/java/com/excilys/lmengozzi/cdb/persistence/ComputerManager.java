@@ -28,8 +28,9 @@ public class ComputerManager implements IComputerManager {
 	private ComputerMapper cp;
 
 	public static ComputerManager getInstance() {
-		if (instance == null)
+		if (instance == null) {
 			instance = new ComputerManager();
+		}
 		return instance;
 	}
 
@@ -87,6 +88,7 @@ public class ComputerManager implements IComputerManager {
 	 * @return A page of 50 computers at index <code>page</code> in the computer
 	 *         database, or <code>null</code> if the page is empty.
 	 */
+	//TODO Move this method to a ComputerService class
 	@Override
 	public List<Computer> findPage(int page) throws SQLException {
 
@@ -160,11 +162,8 @@ public class ComputerManager implements IComputerManager {
 				.prepareStatement("SELECT count(*) FROM computer");
 		ResultSet resultSet = statement.executeQuery();
 		connection.close();
-
 		resultSet.next();
-		resultSet.getInt(1);
-
-		return 0;
+		return resultSet.getInt(1);
 	}
 
 }

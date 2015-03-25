@@ -16,7 +16,7 @@
 	<jsp:include page="navbar.jsp" />
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${computerModel.computerCount} Computers found</h1>
+			<h1 id="homeTitle">${computerModel.computerCount}Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -68,10 +68,10 @@
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="0"></td>
-							<td><a href="editComputer.html" onclick="">${computerModel.activePage.all[i].name}</a></td>
-							<td>${computerModel.activePage.all[i].introduced}</td>
+							<td><a href="editComputer.html" onclick="">${computerModel.activePage[i].name}</a></td>
+							<td>${computerModel.activePage[i].introducedDate}</td>
 							<td></td>
-							<td>${computerModel.activePage.all[i].companyId}</td>
+							<td>${computerModel.activePage[i].company}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -82,25 +82,22 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
 			<ul class="pagination">
-				<c:if test="${computerModel.activePage.number > 0}">
-					<li><a
-						href="dashboard?page=${computerModel.activePage.number-1}"
+				<c:if test="${computerModel.page > 0}">
+					<li><a href="dashboard?page=${computerModel.page-1}"
 						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 					</a></li>
 				</c:if>
 				<c:forEach var="i" begin="${computerModel.paginationStart}"
 					end="${computerModel.paginationEnd}">
-					<c:if test="${computerModel.activePage.number == i}">
+					<c:if test="${computerModel.page == i}">
 						<li><a href="#" style="background: #dddddd;">${i+1}</a></li>
 					</c:if>
-					<c:if test="${computerModel.activePage.number != i}">
+					<c:if test="${computerModel.page != i}">
 						<li><a href="#">${i+1}</a></li>
 					</c:if>
 				</c:forEach>
-				<c:if
-					test="${computerModel.activePage.number < computerModel.pageCount-1}">
-					<li><a
-						href="dashboard?page=${computerModel.activePage.number+1}"
+				<c:if test="${computerModel.page < computerModel.pageCount-1}">
+					<li><a href="dashboard?page=${computerModel.page+1}"
 						aria-label="Next"> <span aria-hidden="true">&raquo;</span></a></li>
 				</c:if>
 			</ul>

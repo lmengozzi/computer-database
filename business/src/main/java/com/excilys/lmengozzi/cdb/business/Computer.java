@@ -18,7 +18,7 @@ public class Computer {
 	@Past
 	protected LocalDateTime discontinuedDate;
 	@Size(min = 0, max = 256)
-	protected String manufacturer;
+	protected String company;
 	
 	public Computer() {
 		
@@ -38,7 +38,7 @@ public class Computer {
 		this.name = name;
 		this.introducedDate = introducedDate;
 		this.discontinuedDate = discontinuedDate;
-		this.manufacturer = manufacturer;
+		this.company = manufacturer;
 	}
 	
 	public Computer(long id, String name, LocalDateTime introducedDate,
@@ -47,7 +47,7 @@ public class Computer {
 		this.name = name;
 		this.introducedDate = introducedDate;
 		this.discontinuedDate = discontinuedDate;
-		this.manufacturer = manufacturer;
+		this.company = manufacturer;
 	}
 
 	public String getName() {
@@ -75,9 +75,9 @@ public class Computer {
 			buffer.append(", discontinued: ");
 			buffer.append(discontinuedDate);
 		}
-		if (manufacturer != null) {
+		if (company != null) {
 			buffer.append(", manufacturer: ");
-			buffer.append(manufacturer);
+			buffer.append(company);
 		}
 
 		return buffer.toString();
@@ -107,11 +107,11 @@ public class Computer {
 		this.discontinuedDate = discontinuedDate;
 	}
 
-	public String getManufacturer() {
-		return manufacturer;
+	public String getCompany() {
+		return company;
 	}
 
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
+	public void setCompany(String manufacturer) {
+		this.company = manufacturer;
 	}
 }

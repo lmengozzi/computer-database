@@ -17,7 +17,7 @@ public class ComputerTest {
 		computer = new Computer(0, "Skynut");
 		computer.setDiscontinuedDate(LocalDateTime.of(2000, 1, 1, 0, 0));
 		computer.setIntroducedDate(LocalDateTime.of(1990, 1, 1, 0, 0));
-		computer.setManufacturer("John Smith");
+		computer.setCompany("John Smith");
 		System.out.println();
 	}
 

@@ -68,7 +68,7 @@ public class ComputerMapper {
 			computer.setDiscontinuedDate(LocalDateTime.ofEpochSecond(timeStamp.getTime()/1000, timeStamp.getNanos(), ZoneOffset.UTC));
 		}
 		if ((field = resultSet.getString(5)) != null) {
-			computer.setManufacturer(field);
+			computer.setCompany(field);
 		}
 		return computer;
 	}

@@ -1,4 +1,4 @@
-package com.excilys.lmengozzi.cdb.persistence.parser;
+package com.excilys.lmengozzi.cdb.persistence.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ public class ComputerMapper {
 	private static ComputerMapper instance;
 
 	private ComputerMapper() {
-
+		
 	}
 
 	public static ComputerMapper getInstance() {
@@ -41,8 +41,6 @@ public class ComputerMapper {
 	 */
 	public List<Computer> parseRows(ResultSet resultSet) throws SQLException {
 		List<Computer> lComputers = new ArrayList<>();
-		// parseRow uses resultSet.next() before it parses the row, so stop at
-		// last row
 		while (!resultSet.isLast()) {
 			lComputers.add(parseRow(resultSet));
 		}

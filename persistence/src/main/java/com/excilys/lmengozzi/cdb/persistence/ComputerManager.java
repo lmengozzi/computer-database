@@ -1,10 +1,10 @@
 package com.excilys.lmengozzi.cdb.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.lmengozzi.cdb.business.Computer;
-import com.excilys.lmengozzi.cdb.business.validation.ComputerValidator;
-import com.excilys.lmengozzi.cdb.persistence.parser.ComputerMapper;
+import com.excilys.lmengozzi.cdb.persistence.mapper.ComputerMapper;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -43,35 +43,39 @@ public class ComputerManager implements IComputerManager {
 	public Computer findById(long id) {
 		Connection connection = cm.getConnection();
 		Computer computer = null;
-		PreparedStatement statement;
+		ResultSet resultSet = null;
+		PreparedStatement statement = null;
 		try {
 			statement = connection
 					.prepareStatement("SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
 							+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
 							+ "WHERE computer.id = ? ;");
 			statement.setLong(1, id);
-			ResultSet resultSet = statement.executeQuery();
+			resultSet = statement.executeQuery();
 			connection.close();
 
 			resultSet.next();
 			computer = cp.parseRow(resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+				resultSet.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-
 		LOGGER.info("Retrieved: " + computer.toString());
-		ComputerValidator validator = ComputerValidator.getInstance();
-		validator.company("bla");
-
 		return computer;
 	}
 
 	@Override
 	public List<Computer> findRange(int start, int end) {
 
-		PreparedStatement statement;
 		List<Computer> lComputers = null;
 		ResultSet resultSet = null;
+		PreparedStatement statement = null;
 		try (Connection connection = cm.getConnection()) {
 			statement = connection
 					.prepareStatement("SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
@@ -82,13 +86,14 @@ public class ComputerManager implements IComputerManager {
 			resultSet = statement.executeQuery();
 
 			if (!resultSet.isBeforeFirst()) {
-				return null;
+				return new ArrayList<Computer>();
 			}
 			lComputers = cp.parseRows(resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
+				statement.close();
 				resultSet.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -99,22 +104,28 @@ public class ComputerManager implements IComputerManager {
 
 	@Override
 	public List<Computer> findAll() {
-		List<Computer> lComputers;
-		Connection connection;
-		connection = cm.getConnection();
-		try {
-			PreparedStatement statement = connection
+		List<Computer> lComputers = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try(Connection connection = cm.getConnection()) {
+			statement = connection
 					.prepareStatement("SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
 							+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
 							+ "ORDER BY company.id");
-			ResultSet resultSet = statement.executeQuery();
+			resultSet = statement.executeQuery();
+			if (!resultSet.isBeforeFirst()) {
+				return new ArrayList<Computer>();
+			}
 			lComputers = cp.parseRows(resultSet);
 		} catch (SQLException e) {
-			String error = "Query failed";
-			LOGGER.error(error);
-			throw new IllegalStateException(error);
+			e.printStackTrace();
 		} finally {
-			cm.closeConnection(connection);
+			try {
+				statement.close();
+				resultSet.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return lComputers;
 	}
@@ -128,9 +139,9 @@ public class ComputerManager implements IComputerManager {
 	@Override
 	// TODO Set manufacturer
 	public void put(Computer computer) {
-		Connection connection = cm.getConnection();
-		PreparedStatement statement;
-		try {
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		try(Connection connection = cm.getConnection()) {
 			statement = connection.prepareStatement(
 					"INSERT INTO computer VALUES(default, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
@@ -150,13 +161,14 @@ public class ComputerManager implements IComputerManager {
 			}
 			statement.setInt(4, 0);
 			statement.executeUpdate();
-			ResultSet resultSet = statement.getGeneratedKeys();
+			resultSet = statement.getGeneratedKeys();
 			computer.setId(resultSet.getLong(1));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				connection.close();
+				statement.close();
+				resultSet.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -165,7 +177,7 @@ public class ComputerManager implements IComputerManager {
 		LOGGER.info("Inserted: " + computer.toString());
 
 	}
-
+	
 	@Override
 	public void delete(long id) {
 		
@@ -189,23 +201,20 @@ public class ComputerManager implements IComputerManager {
 	@Override
 	public int getCount() {
 		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		Connection connection = cm.getConnection();
 		int result = 0;
 		try {
 			statement = connection
 					.prepareStatement("SELECT count(*) FROM computer");
-			ResultSet resultSet = statement.executeQuery();
+			resultSet = statement.executeQuery();
 			resultSet.next();
 			result = resultSet.getInt(1);
 		} catch (SQLException e) {
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 			e.printStackTrace();
 		} finally {
 			try {
+				resultSet.close();
 				statement.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -213,5 +222,4 @@ public class ComputerManager implements IComputerManager {
 		}
 		return result;
 	}
-
 }

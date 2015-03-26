@@ -17,9 +17,7 @@ import com.jolbox.bonecp.BoneCPConfig;
 public class ConnectionManager {
 
 	private Logger LOGGER = LoggerFactory.getLogger(ConnectionManager.class);
-
 	private static ConnectionManager instance;
-
 	private BoneCP pool = null;
 
 	private ConnectionManager() {

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="mylib" tagdir="/WEB-INF/tags" %>
 <!--jsp:useBean id="computerModel" class="com.excilys.computerdatabase.webapp.computer.view.ComputerBackingBean" /-->
 <!DOCTYPE html>
 <html>
@@ -76,36 +77,10 @@
 		</div>
 	</section>
 
-	<footer class="navbar-fixed-bottom">
-		<div class="container text-center">
-			<ul class="pagination">
-				<c:if test="${computerModel.page > 0}">
-					<li><a href="dashboard?page=${computerModel.page-1}"
-						aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-					</a></li>
-				</c:if>
-				<c:forEach var="i" begin="${computerModel.paginationStart}"
-					end="${computerModel.paginationEnd}">
-					<c:if test="${computerModel.page == i}">
-						<li><a href="#" style="background: #dddddd;">${i+1}</a></li>
-					</c:if>
-					<c:if test="${computerModel.page != i}">
-						<li><a href="#">${i+1}</a></li>
-					</c:if>
-				</c:forEach>
-				<c:if test="${computerModel.page < computerModel.pageCount-1}">
-					<li><a href="dashboard?page=${computerModel.page+1}"
-						aria-label="Next"> <span aria-hidden="true">&raquo;</span></a></li>
-				</c:if>
-			</ul>
-
-			<div class="btn-group btn-group-sm pull-right" role="group">
-				<button type="button" class="btn btn-default">10</button>
-				<button type="button" class="btn btn-default">50</button>
-				<button type="button" class="btn btn-default">100</button>
-			</div>
-		</div>
-	</footer>
+<footer class="navbar-fixed-bottom">
+	<mylib:page page="${page}" pageSize="${pageSize}"
+	paginationStart="${paginationStart}" paginationFinish="${paginationFinish}" ></mylib:page>
+</footer>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/dashboard.js"></script>

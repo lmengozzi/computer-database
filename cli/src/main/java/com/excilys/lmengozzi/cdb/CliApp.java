@@ -13,17 +13,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.lmengozzi.cdb.business.Computer;
-import com.excilys.lmengozzi.cdb.persistence.ComputerManager;
-import com.excilys.lmengozzi.cdb.persistence.IDAO;
+import com.excilys.lmengozzi.cdb.persistence.service.ComputerService;
+import com.excilys.lmengozzi.cdb.persistence.service.IComputerService;
 
 public class CliApp {
 
-	private final static IDAO<Computer> manager = ComputerManager.getInstance();
+	private final static IComputerService service = ComputerService.getInstance();
 	
 	private final static String DATE_REGEX = "^(0[1-9]|1[0-9]|2[0-8]|29((?=-([0][13-9]|1[0-2])|(?=-(0[1-9]|1[0-2])-([0-9]{2}(0[48]|[13579][26]|[2468][048])|([02468][048]|[13579][26])00))))|30(?=-(0[13-9]|1[0-2]))|31(?=-(0[13578]|1[02])))-(0[1-9]|1[0-2])-[0-9]{4}$";
 	private final static Pattern DATE_PATTERN = java.util.regex.Pattern.compile(DATE_REGEX);
 	
 	private static final Logger logger = LoggerFactory.getLogger(CliApp.class);
+	
+	private static int pageSize = 50;
 	
 	public static void main(String[] args) {
 	
@@ -98,7 +100,7 @@ public class CliApp {
 		boolean exit = false;
 		while (true) {
 			try {
-				computers = manager.findPage(page);
+				computers = service.findPage(page, pageSize);
 				if ((computers) == null) {
 					System.out.println("List ended.");
 					break;
@@ -171,7 +173,7 @@ public class CliApp {
 		computer.setIntroducedDate(introduced);
 		computer.setIntroducedDate(discontinued);
 		try {
-			manager.put(computer);
+			service.put(computer);
 			System.out.println("Insertion done.");
 		} catch (SQLException e) {
 			e.printStackTrace();

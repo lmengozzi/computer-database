@@ -1,10 +1,9 @@
 package com.excilys.lmengozzi.cdb.webapp;
 
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.List;
 
-import com.excilys.lmengozzi.cdb.persistence.ComputerManager;
+import com.excilys.lmengozzi.cdb.persistence.service.ComputerService;
 import com.excilys.lmengozzi.cdb.business.Computer;
 
 import org.slf4j.Logger;
@@ -21,7 +20,7 @@ public class ComputerBackingBean {
 	private int pageCount;
 	private int computerCount;
 	private List<Computer> activePage;
-	private ComputerManager manager = ComputerManager.getInstance();
+	private ComputerService service = ComputerService.getInstance();
 
 	public ComputerBackingBean() {
 		init(0);
@@ -45,7 +44,7 @@ public class ComputerBackingBean {
 
 	public void init(int n) {
 		try {
-			computerCount = manager.getCount();
+			computerCount = service.getCount();
 			System.out.println("computerCount: " + computerCount);
 			if (computerCount % pageSize == 0) {
 				pageCount = computerCount / pageSize;
@@ -54,7 +53,7 @@ public class ComputerBackingBean {
 			}
 			n = n < 0 ? 0 : n;
 			n = n > pageCount - 1 ? pageCount - 1 : n;
-			activePage = manager.findPage(n);
+			activePage = service.findPage(n, pageSize);
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage());
 		}
@@ -87,7 +86,7 @@ public class ComputerBackingBean {
 	public String activatePage(int i) {
 		try {
 			page = i;
-			activePage = manager.findPage(i);
+			activePage = service.findPage(i, pageSize);
 		} catch (SQLException e) {
 			LOGGER.error(e.getMessage());
 		}

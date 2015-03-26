@@ -28,10 +28,6 @@ public class ConnectionManager {
 			Class.forName("com.mysql.jdbc.Driver");
 			props.load(this.getClass().getResourceAsStream("/sql.properties"));
 		} catch (IOException e) {
-			LOGGER.error("Could not open sql properties file ");
-			e.printStackTrace();
-		} catch (RuntimeException e) {
-			System.out.println(this.getClass());
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -47,6 +43,9 @@ public class ConnectionManager {
 
 		try {
 			pool = new BoneCP(config);
+			if(pool == null) {
+				throw new SQLException();
+			}
 		} catch (SQLException e) {
 			String error = "Could not connect to database";
 			LOGGER.error(error);

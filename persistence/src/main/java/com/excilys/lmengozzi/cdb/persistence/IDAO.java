@@ -1,19 +1,18 @@
 package com.excilys.lmengozzi.cdb.persistence;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface IDAO<T> {
 
-	T findById(long id) throws SQLException;
-	
-	List<T> findPage(int page) throws SQLException;
+	T findById(long id);
 
-	List<T> findAll() throws SQLException;
+	List<T> findAll();
 	
-	void put(T object) throws SQLException;
+	List<T> findRange(int start, int end);
 	
-	int getCount() throws SQLException;
+	void put(T object);
 	
-	void delete(long id) throws SQLException;
+	int getCount();
+	
+	void delete(long id);
 }

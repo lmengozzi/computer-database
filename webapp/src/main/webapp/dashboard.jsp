@@ -28,7 +28,7 @@
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="addComputer.html">Add
+					<a class="btn btn-success" id="addComputer" href="addComputer.jsp">Add
 						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();">Edit</a>
 				</div>
@@ -43,8 +43,6 @@
 			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
-						<!-- Variable declarations for passing labels as parameters -->
-						<!-- Table header for Computer Name -->
 
 						<th class="editMode" style="width: 60px; height: 22px;"><input
 							type="checkbox" id="selectall" /> <span
@@ -53,18 +51,17 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
+						<!-- Table Headers -->
 						<th>Computer name</th>
 						<th>Introduced date</th>
-						<!-- Table header for Discontinued Date -->
 						<th>Discontinued date</th>
-						<!-- Table header for Company -->
 						<th>Company</th>
 
 					</tr>
 				</thead>
-				<!-- Browse attribute computers -->
+				<!-- List Computers -->
 				<tbody id="results">
-					<c:forEach var="i" begin="0" end="${computerModel.pageSize}">
+					<c:forEach var="i" begin="0" end="${computerModel.pageSize-1}">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="0"></td>

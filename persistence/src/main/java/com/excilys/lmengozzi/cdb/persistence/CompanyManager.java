@@ -10,6 +10,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.lmengozzi.cdb.business.Computer;
 import com.excilys.lmengozzi.cdb.persistence.mapper.CompanyMapper;
 
 // TODO Finish CompanyManager
@@ -22,6 +23,7 @@ public class CompanyManager implements ICompanyManager {
 
 	private ConnectionManager cm;
 	private CompanyMapper cmap;
+	private ComputerManager computerManager;
 
 	public static CompanyManager getInstance() {
 		if (instance == null) {
@@ -33,6 +35,7 @@ public class CompanyManager implements ICompanyManager {
 	private CompanyManager() {
 		cm = ConnectionManager.getInstance();
 		cmap = CompanyMapper.getInstance();
+		computerManager = ComputerManager.getInstance();
 	}
 
 	public long findByName(String name) {
@@ -187,9 +190,30 @@ public class CompanyManager implements ICompanyManager {
 		return result;
 	}
 
-	@Override
-	public void delete(long id) {
-		// TODO tout doux
+	// TODO tout doux
+	public void delete(String company) {
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		List<Computer> lComputers = null;
+		try (Connection connection = cm.getConnection();) {
+			connection.setAutoCommit(false);
+			lComputers = computerManager.findAllInCompany(company, connection);
+			for(Computer c : lComputers) {
+				computerManager.delete(c.getId(), connection);
+			}
+			statement = connection.prepareStatement(
+					"DELETE FROM company WHERE company.name = ?");
+			statement.setString(1, company);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			connection.rollback();
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-
 }

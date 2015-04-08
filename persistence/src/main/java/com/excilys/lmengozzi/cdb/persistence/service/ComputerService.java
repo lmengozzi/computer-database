@@ -3,14 +3,19 @@ package com.excilys.lmengozzi.cdb.persistence.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.excilys.lmengozzi.cdb.business.Computer;
 import com.excilys.lmengozzi.cdb.persistence.ComputerManager;
 import com.excilys.lmengozzi.cdb.persistence.IComputerManager;
 
+@Component
 public class ComputerService implements IComputerService {
 
 	private static ComputerService instance;
 
+	@Autowired
 	private IComputerManager manager;
 
 	private ComputerService() {

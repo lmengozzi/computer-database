@@ -1,6 +1,10 @@
 package com.excilys.lmengozzi.cdb.persistence;
 
 import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 import com.excilys.lmengozzi.cdb.business.Computer;
@@ -17,6 +21,7 @@ import java.sql.Types;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Component
 public class ComputerManager implements IComputerManager {
 
 	private static ComputerManager instance;
@@ -24,6 +29,7 @@ public class ComputerManager implements IComputerManager {
 	public static final Logger LOGGER = LoggerFactory
 			.getLogger(ComputerManager.class);
 
+	@Autowired
 	private ConnectionManager cm;
 	private ComputerMapper cp;
 
@@ -35,7 +41,6 @@ public class ComputerManager implements IComputerManager {
 	}
 
 	private ComputerManager() {
-		cm = ConnectionManager.getInstance();
 		cp = ComputerMapper.getInstance();
 	}
 
@@ -92,19 +97,20 @@ public class ComputerManager implements IComputerManager {
 			}
 			lComputers = cp.parseRows(resultSet);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			e.printStackTrace();/*
 		} finally {
 			try {
 				statement.close();
 				resultSet.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
-			}
+			}*/
 		}
 		return lComputers;
 	}
 
 	@Override
+	// TODO Tout doux
 	public List<Computer> findAll() {
 		List<Computer> lComputers = null;
 		PreparedStatement statement = null;

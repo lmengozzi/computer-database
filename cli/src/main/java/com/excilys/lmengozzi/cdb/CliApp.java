@@ -11,14 +11,22 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import com.excilys.lmengozzi.cdb.business.Computer;
 import com.excilys.lmengozzi.cdb.persistence.service.ComputerService;
 import com.excilys.lmengozzi.cdb.persistence.service.IComputerService;
 
+@Configuration
+@ComponentScan("com.excilys.lmengozzi.cdb.persistence")
+@Component
 public class CliApp {
 
-	private final static IComputerService service = ComputerService.getInstance();
+	private static IComputerService service;
 	
 	private final static String DATE_REGEX = "^(0[1-9]|1[0-9]|2[0-8]|29((?=-([0][13-9]|1[0-2])|(?=-(0[1-9]|1[0-2])-([0-9]{2}(0[48]|[13579][26]|[2468][048])|([02468][048]|[13579][26])00))))|30(?=-(0[13-9]|1[0-2]))|31(?=-(0[13578]|1[02])))-(0[1-9]|1[0-2])-[0-9]{4}$";
 	private final static Pattern DATE_PATTERN = java.util.regex.Pattern.compile(DATE_REGEX);
@@ -34,6 +42,9 @@ public class CliApp {
 	}
 
 	private static void CLI() {
+
+		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(CliApp.class);
+		service = appContext.getBean(ComputerService.class);
 
 		List<String> choices = new ArrayList<String>();
 		choices.add("a");
@@ -81,6 +92,7 @@ public class CliApp {
 			deleteComputer();
 			break;
 		case "exit":
+			appContext.close();
 			System.exit(0);
 		}
 	}

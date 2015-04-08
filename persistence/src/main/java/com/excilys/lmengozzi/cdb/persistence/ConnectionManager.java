@@ -7,6 +7,8 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
@@ -14,12 +16,13 @@ import com.jolbox.bonecp.BoneCPConfig;
 /**
  * Provides methods to connect to the mysql database.
  */
-public class ConnectionManager {
 
+@Component
+public class ConnectionManager {
 	private Logger LOGGER = LoggerFactory.getLogger(ConnectionManager.class);
 	private static ConnectionManager instance;
 	private BoneCP pool = null;
-
+	
 	private ConnectionManager() {
 		Properties props = new Properties();
 		try {

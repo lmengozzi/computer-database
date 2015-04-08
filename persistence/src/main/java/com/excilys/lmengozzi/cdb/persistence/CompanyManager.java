@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.lmengozzi.cdb.business.Computer;
 import com.excilys.lmengozzi.cdb.persistence.mapper.CompanyMapper;
@@ -23,6 +24,8 @@ public class CompanyManager implements ICompanyManager {
 
 	private ConnectionManager cm;
 	private CompanyMapper cmap;
+	
+	@Autowired
 	private ComputerManager computerManager;
 
 	public static CompanyManager getInstance() {
@@ -33,7 +36,6 @@ public class CompanyManager implements ICompanyManager {
 	}
 
 	private CompanyManager() {
-		cm = ConnectionManager.getInstance();
 		cmap = CompanyMapper.getInstance();
 		computerManager = ComputerManager.getInstance();
 	}
@@ -147,6 +149,7 @@ public class CompanyManager implements ICompanyManager {
 	}
 
 	@Override
+	// TODO Save the company id
 	public void put(String company) {
 		PreparedStatement statement = null;
 		try (Connection connection = cm.getConnection()) {
@@ -195,7 +198,8 @@ public class CompanyManager implements ICompanyManager {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		List<Computer> lComputers = null;
-		try (Connection connection = cm.getConnection();) {
+		Connection connection = cm.getConnection();
+		try {
 			connection.setAutoCommit(false);
 			lComputers = computerManager.findAllInCompany(company, connection);
 			for(Computer c : lComputers) {
@@ -206,7 +210,11 @@ public class CompanyManager implements ICompanyManager {
 			statement.setString(1, company);
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			connection.rollback();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		} finally {
 			try {
@@ -215,5 +223,11 @@ public class CompanyManager implements ICompanyManager {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public void delete(long id) {
+		// TODO Auto-generated method stub
+		
 	}
 }

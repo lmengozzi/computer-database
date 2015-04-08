@@ -128,7 +128,7 @@
 			<version>${version.dependency.mockito}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- Logging -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -150,7 +150,7 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${version.dependency.slf4j}</version>
 		</dependency>
-		
+
 		<!-- Validation -->
 		<dependency>
 			<groupId>javax.validation</groupId>
@@ -165,11 +165,11 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-framework-bom</artifactId>
-				<version>4.1.6.RELEASE</version>
+				<version>${version.dependency.spring}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			
+
 			<!-- BoneCP -->
 			<dependency>
 				<groupId>com.jolbox</groupId>

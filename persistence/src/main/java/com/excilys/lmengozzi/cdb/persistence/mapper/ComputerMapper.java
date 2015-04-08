@@ -9,13 +9,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.jdbc.core.RowMapper;
+
 import com.excilys.lmengozzi.cdb.business.Computer;
 
 /**
  * Used to map a computer tuple from SQL ResultSet to a Computer object.
  * Computer attributes in the same order as the rows in the computer table.
  */
-public class ComputerMapper {
+public class ComputerMapper implements RowMapper<Computer> {
 	private static ComputerMapper instance;
 
 	private ComputerMapper() {
@@ -42,7 +44,8 @@ public class ComputerMapper {
 	public List<Computer> parseRows(ResultSet resultSet) throws SQLException {
 		List<Computer> lComputers = new ArrayList<>();
 		while (!resultSet.isLast()) {
-			lComputers.add(parseRow(resultSet));
+			resultSet.next();
+			lComputers.add(mapRow(resultSet, 0));
 		}
 		return lComputers;
 	}
@@ -52,11 +55,8 @@ public class ComputerMapper {
 	 * @return A queried computer object.
 	 * @throws SQLException
 	 */
-	public Computer parseRow(ResultSet resultSet) throws SQLException {
-		Computer computer;
-
-		resultSet.next();
-		computer = new Computer(resultSet.getLong(1), resultSet.getString(2));
+	public Computer mapRow(ResultSet resultSet, int intuile) throws SQLException {
+		Computer computer = new Computer(resultSet.getLong(1), resultSet.getString(2));
 		String field;
 		Timestamp timeStamp;
 		if ((timeStamp = resultSet.getTimestamp(3)) != null) {

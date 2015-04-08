@@ -5,13 +5,13 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.jolbox.bonecp.BoneCP;
-import com.jolbox.bonecp.BoneCPConfig;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 /**
  * Provides methods to connect to the mysql database.
@@ -21,61 +21,45 @@ import com.jolbox.bonecp.BoneCPConfig;
 public class ConnectionManager {
 	private Logger LOGGER = LoggerFactory.getLogger(ConnectionManager.class);
 	private static ConnectionManager instance;
-	private BoneCP pool = null;
+	private MysqlDataSource source = new MysqlDataSource();
 	
-	private ConnectionManager() {
-		Properties props = new Properties();
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			props.load(this.getClass().getResourceAsStream("/sql.properties"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		BoneCPConfig config = new BoneCPConfig();
-		config.setUsername(props.getProperty("login"));
-		config.setPassword(props.getProperty("password"));
-		config.setJdbcUrl(props.getProperty("jdbc-url"));
-		config.setMinConnectionsPerPartition(5);
-		config.setMaxConnectionsPerPartition(10);
-		config.setPartitionCount(1);
-
-		try {
-			pool = new BoneCP(config);
-			if(pool == null) {
-				throw new SQLException();
-			}
-		} catch (SQLException e) {
-			String error = "Could not connect to database";
-			LOGGER.error(error);
-			e.printStackTrace();
-		}
-	}
-
 	public static ConnectionManager getInstance() {
 		if (instance == null)
 			instance = new ConnectionManager();
 		return instance;
 	}
 
-	public Connection getConnection() {
-
+	private ConnectionManager() {
+		Properties props = new Properties();
 		try {
-			return pool.getConnection();
+			props.load(this.getClass().getResourceAsStream("/sql.properties"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		source.setServerName(props.getProperty("server"));
+		source.setPortNumber(Integer.parseInt(props.getProperty("port")));
+		source.setDatabaseName(props.getProperty("database"));
+
+		// Have the datasource convert zero dates to null to avoid
+		// java.sql.SQLException about zero dates representation
+		source.setZeroDateTimeBehavior("convertToNull");
+		source.setUser(props.getProperty("login"));
+		source.setPassword(props.getProperty("password"));
+	}
+	
+	public DataSource getDatasource() {
+		return source;
+	}
+
+	public Connection getConnection() {
+		try {
+			return source.getConnection();
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
+	
 
-	public void closeConnection(Connection connection) {
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			String error = "Could not close connection to database";
-			LOGGER.error(error);
-		}
-	}
 }

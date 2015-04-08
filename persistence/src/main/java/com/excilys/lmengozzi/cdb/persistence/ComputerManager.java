@@ -3,6 +3,8 @@ package com.excilys.lmengozzi.cdb.persistence;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,6 +20,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,22 +32,29 @@ public class ComputerManager implements IComputerManager {
 
 	public static final Logger LOGGER = LoggerFactory
 			.getLogger(ComputerManager.class);
-
+	
 	@Autowired
 	private ConnectionManager cm;
 	private ComputerMapper cp;
-
+	
+	private JdbcTemplate jdbcTemplate;
+	
 	public static ComputerManager getInstance() {
 		if (instance == null) {
 			instance = new ComputerManager();
 		}
 		return instance;
 	}
-
+	
 	private ComputerManager() {
 		cp = ComputerMapper.getInstance();
 	}
-
+	
+	@PostConstruct
+	private void initDatasource() {
+		jdbcTemplate = new JdbcTemplate(cm.getDatasource());
+	}
+	
 	@Override
 	public Computer findById(long id) {
 		Connection connection = cm.getConnection();
@@ -60,7 +71,7 @@ public class ComputerManager implements IComputerManager {
 			connection.close();
 
 			resultSet.next();
-			computer = cp.parseRow(resultSet);
+			computer = cp.mapRow(resultSet, 0);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -75,11 +86,8 @@ public class ComputerManager implements IComputerManager {
 		return computer;
 	}
 	
-
-
 	@Override
 	public List<Computer> findRange(int start, int end) {
-
 		List<Computer> lComputers = null;
 		ResultSet resultSet = null;
 		PreparedStatement statement = null;
@@ -97,35 +105,6 @@ public class ComputerManager implements IComputerManager {
 			}
 			lComputers = cp.parseRows(resultSet);
 		} catch (SQLException e) {
-			e.printStackTrace();/*
-		} finally {
-			try {
-				statement.close();
-				resultSet.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}*/
-		}
-		return lComputers;
-	}
-
-	@Override
-	// TODO Tout doux
-	public List<Computer> findAll() {
-		List<Computer> lComputers = null;
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
-		try(Connection connection = cm.getConnection()) {
-			statement = connection
-					.prepareStatement("SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
-							+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
-							+ "ORDER BY company.id");
-			resultSet = statement.executeQuery();
-			if (!resultSet.isBeforeFirst()) {
-				return new ArrayList<Computer>();
-			}
-			lComputers = cp.parseRows(resultSet);
-		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
@@ -136,6 +115,14 @@ public class ComputerManager implements IComputerManager {
 			}
 		}
 		return lComputers;
+	}
+
+	@Override
+	public List<Computer> findAll() {
+		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
+				+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
+				+ "ORDER BY company.id";
+		return jdbcTemplate.query(sql, cp);
 	}
 
 	@Override
@@ -283,7 +270,7 @@ public class ComputerManager implements IComputerManager {
 			statement.setLong(1, id);
 			resultSet = statement.executeQuery();
 			resultSet.next();
-			computer = cp.parseRow(resultSet);
+			computer = cp.mapRow(resultSet, 0);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

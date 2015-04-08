@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -45,7 +44,7 @@ public class CliApp {
 
 		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(CliApp.class);
 		service = appContext.getBean(ComputerService.class);
-
+	
 		List<String> choices = new ArrayList<String>();
 		choices.add("a");
 		choices.add("b");
@@ -196,7 +195,7 @@ public class CliApp {
 
 	private static void updateComputer() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	private static void deleteComputer() {

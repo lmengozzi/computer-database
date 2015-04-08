@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.lmengozzi.cdb.business.Computer;
 import com.excilys.lmengozzi.cdb.persistence.ComputerManager;
 import com.excilys.lmengozzi.cdb.persistence.IComputerManager;
 
 @Component
+@Transactional
 public class ComputerService implements IComputerService {
 
 	private static ComputerService instance;

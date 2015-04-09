@@ -38,27 +38,33 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
-					<artifactId>maven-assembly-plugin</artifactId>
-					<version>${version.plugin.assembly}</version>
-					<configuration>
-						<skipAssembly>true</skipAssembly>
-						<archive>
-							<manifest>
-								<mainClass>com.excilys.lmengozzi.cdb.CliApp</mainClass>
-							</manifest>
-						</archive>
-						<descriptorRefs>
-							<descriptorRef>jar-with-dependencies</descriptorRef>
-						</descriptorRefs>
-					</configuration>
-				</plugin>
-				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>${version.plugin.war}</version>
+					<artifactId>maven-shade-plugin</artifactId>
+					<version>2.3</version>
 					<configuration>
-						<webXml>src\main\webapp\WEB-INF\web.xml</webXml>
+						<transformers>
+							<transformer
+								implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+								<resource>META-INF/spring.handlers</resource>
+							</transformer>
+							<transformer
+								implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+								<resource>META-INF/spring.schemas</resource>
+							</transformer>
+							<transformer
+								implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<mainClass>com.excilys.lmengozzi.cdb.CliApp</mainClass>
+							</transformer>
+						</transformers>
 					</configuration>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>shade</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -113,6 +119,10 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
 		</dependency>
 
 		<!-- Tests -->

@@ -12,43 +12,43 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.lmengozzi.cdb.business.Computer;
-import com.excilys.lmengozzi.cdb.persistence.CompanyManager;
-import com.excilys.lmengozzi.cdb.persistence.service.ComputerService;
+import com.excilys.lmengozzi.cdb.persistence.ICompanyManager;
 import com.excilys.lmengozzi.cdb.persistence.service.IComputerService;
 
-@Configuration
-@ComponentScan("com.excilys.lmengozzi.cdb.persistence com.excilys.lmengozzi.cdb.business")
 @Component
 public class CliApp {
 
 	private static IComputerService service;
-	private static CompanyManager companyManager;
-	
+	private static ICompanyManager companyManager;
+
 	private final static String DATE_REGEX = "^(0[1-9]|1[0-9]|2[0-8]|29((?=-([0][13-9]|1[0-2])|(?=-(0[1-9]|1[0-2])-([0-9]{2}(0[48]|[13579][26]|[2468][048])|([02468][048]|[13579][26])00))))|30(?=-(0[13-9]|1[0-2]))|31(?=-(0[13578]|1[02])))-(0[1-9]|1[0-2])-[0-9]{4}$";
-	private final static Pattern DATE_PATTERN = java.util.regex.Pattern.compile(DATE_REGEX);
-	
+	private final static Pattern DATE_PATTERN = java.util.regex.Pattern
+			.compile(DATE_REGEX);
+
 	private static final Logger logger = LoggerFactory.getLogger(CliApp.class);
-	
+
 	private static int pageSize = 50;
-	
+
 	public static void main(String[] args) {
-	
+		@SuppressWarnings("resource")
+		GenericXmlApplicationContext applicationContext = new GenericXmlApplicationContext();
+		applicationContext.load("persistence.xml");
+		applicationContext.refresh();
 		logger.info("CLI Started.");
 		CLI();
 	}
 
 	private static void CLI() {
 
-		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(CliApp.class);
-		service = appContext.getBean(ComputerService.class);
-		companyManager = appContext.getBean(CompanyManager.class);
-	
+		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(
+				CliApp.class);
+		service = appContext.getBean(IComputerService.class);
+		companyManager = appContext.getBean(ICompanyManager.class);
+
 		List<String> choices = new ArrayList<String>();
 		choices.add("a");
 		choices.add("b");
@@ -104,7 +104,6 @@ public class CliApp {
 			System.exit(0);
 		}
 	}
-
 
 	private static void showComputers() {
 		@SuppressWarnings("resource")
@@ -173,19 +172,19 @@ public class CliApp {
 			System.out.println("Enter computer name : ");
 			name = scanner.nextLine();
 		}
-		
+
 		String scannedLine;
 
 		System.out
 				.println("Enter computer introduced date (yyyy/MM/dd) or leave blank : ");
-		
+
 		scannedLine = scanDate(scanner);
 		introduced = scannedLine == null ? null : LocalDateTime.parse(
 				scannedLine + " 00:00:00", formatter);
 
 		System.out
 				.println("Enter computer discontinued date (yyyy/MM/dd) or leave blank : ");
-		
+
 		scannedLine = scanDate(scanner);
 		discontinued = scannedLine == null ? null : LocalDateTime.parse(
 				scannedLine + " 00:00:00", formatter);
@@ -210,21 +209,22 @@ public class CliApp {
 	private static void deleteComputer() {
 		// TODO Auto-generated method stub
 	}
-	
-	private static void deleteCompany() {
 
+	private static void deleteCompany() {
+		
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		String name = null;
-		
+
 		while (name == null) {
 			System.out.println("Enter company name : ");
 			name = scanner.nextLine();
 		}
-	
+
 		companyManager.delete(name);
 		CLI();
 	}
-	
+
 	/**
 	 * @param scanner
 	 * @return scannedLine the scanned line or null if blank line
@@ -234,13 +234,14 @@ public class CliApp {
 		String scannedLine;
 		Matcher matcher;
 
-		while(true) {
+		while (true) {
 			scannedLine = scanner.nextLine();
-			if(scannedLine.isEmpty())
+			if (scannedLine.isEmpty())
 				return null;
 			matcher = DATE_PATTERN.matcher(scannedLine);
-			if(!matcher.matches())
-				System.out.println("Please type a date with this pattern (yyyy/MM/dd)");
+			if (!matcher.matches())
+				System.out
+						.println("Please type a date with this pattern (yyyy/MM/dd)");
 			else
 				return scannedLine;
 		}

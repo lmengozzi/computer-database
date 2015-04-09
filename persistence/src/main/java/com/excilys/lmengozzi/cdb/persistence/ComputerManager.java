@@ -3,6 +3,7 @@ package com.excilys.lmengozzi.cdb.persistence;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -25,10 +26,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Component
+@Primary
 public class ComputerManager implements IComputerManager {
-
+	
 	private static ComputerManager instance;
-
+	
 	public static final Logger LOGGER = LoggerFactory
 			.getLogger(ComputerManager.class);
 	
@@ -68,8 +70,6 @@ public class ComputerManager implements IComputerManager {
 			statement.setLong(1, id);
 			resultSet = statement.executeQuery();
 			connection.close();
-
-			resultSet.next();
 			computer = cp.mapRow(resultSet, 0);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -115,7 +115,7 @@ public class ComputerManager implements IComputerManager {
 		}
 		return lComputers;
 	}
-
+	
 	@Override
 	public List<Computer> findAll() {
 		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
@@ -123,7 +123,7 @@ public class ComputerManager implements IComputerManager {
 				+ "ORDER BY company.id";
 		return jdbcTemplate.query(sql, cp);
 	}
-
+	
 	@Override
 	public List<Computer> findAllInCompany(String company, Connection connection) {
 		List<Computer> lComputers = null;
@@ -150,7 +150,7 @@ public class ComputerManager implements IComputerManager {
 		LOGGER.info("Retrieved: " + lComputers.toString());
 		return lComputers;
 	}
-
+	
 	@Override
 	// TODO Set manufacturer
 	public void put(Computer computer) {
@@ -241,7 +241,6 @@ public class ComputerManager implements IComputerManager {
 			statement = connection
 					.prepareStatement("SELECT count(*) FROM computer");
 			resultSet = statement.executeQuery();
-			resultSet.next();
 			result = resultSet.getInt(1);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -268,7 +267,6 @@ public class ComputerManager implements IComputerManager {
 							+ "WHERE computer.id = ? ;");
 			statement.setLong(1, id);
 			resultSet = statement.executeQuery();
-			resultSet.next();
 			computer = cp.mapRow(resultSet, 0);
 		} catch (SQLException e) {
 			e.printStackTrace();

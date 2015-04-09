@@ -10,15 +10,16 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.lmengozzi.cdb.business.Computer;
 import com.excilys.lmengozzi.cdb.persistence.mapper.CompanyMapper;
 
 // TODO Finish CompanyManager
-@Component
-@Transactional
+@Service
+@Primary
 public class CompanyManager implements ICompanyManager {
 
 	private static CompanyManager instance;
@@ -41,9 +42,8 @@ public class CompanyManager implements ICompanyManager {
 		return instance;
 	}
 
-	private CompanyManager() {
+	public CompanyManager() {
 		cmap = CompanyMapper.getInstance();
-		computerManager = ComputerManager.getInstance();
 	}
 
 	public long findByName(String name) {
@@ -200,6 +200,7 @@ public class CompanyManager implements ICompanyManager {
 	}
 
 	// TODO tout doux
+	@Transactional
 	public void delete(String company) {
 		PreparedStatement statement = null;
 		List<Computer> lComputers = null;
@@ -210,7 +211,6 @@ public class CompanyManager implements ICompanyManager {
 			for(Computer c : lComputers) {
 				computerManager.delete(c.getId(), connection);
 			}
-			connection.rollback();
 			statement = connection.prepareStatement(
 					"DELETE FROM company WHERE company.name = ?");
 			statement.setString(1, company);

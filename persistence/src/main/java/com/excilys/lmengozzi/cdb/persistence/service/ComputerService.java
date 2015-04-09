@@ -4,14 +4,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
 
 import com.excilys.lmengozzi.cdb.business.Computer;
 import com.excilys.lmengozzi.cdb.persistence.ComputerManager;
 import com.excilys.lmengozzi.cdb.persistence.IComputerManager;
 
-@Component
+@Service
+@Primary
 public class ComputerService implements IComputerService {
 
 	private static ComputerService instance;
@@ -55,7 +56,6 @@ public class ComputerService implements IComputerService {
 	}
 
 	@Override
-	@Transactional
 	public void put(Computer object) throws SQLException {
 		manager.put(object);
 	}

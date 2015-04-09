@@ -33,7 +33,7 @@ public class CompanyMapper {
 		// last row
 		while (!resultSet.isLast()) {
 			resultSet.next();
-			lCompanies.add(resultSet.getString(2));
+			lCompanies.add(resultSet.getString(1));
 		}
 		return lCompanies;
 	}

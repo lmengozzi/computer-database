@@ -15,17 +15,20 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.lmengozzi.cdb.business.Computer;
+import com.excilys.lmengozzi.cdb.persistence.CompanyManager;
 import com.excilys.lmengozzi.cdb.persistence.service.ComputerService;
 import com.excilys.lmengozzi.cdb.persistence.service.IComputerService;
 
 @Configuration
-@ComponentScan("com.excilys.lmengozzi.cdb.persistence")
+@ComponentScan("com.excilys.lmengozzi.cdb.persistence com.excilys.lmengozzi.cdb.business")
 @Component
 public class CliApp {
 
 	private static IComputerService service;
+	private static CompanyManager companyManager;
 	
 	private final static String DATE_REGEX = "^(0[1-9]|1[0-9]|2[0-8]|29((?=-([0][13-9]|1[0-2])|(?=-(0[1-9]|1[0-2])-([0-9]{2}(0[48]|[13579][26]|[2468][048])|([02468][048]|[13579][26])00))))|30(?=-(0[13-9]|1[0-2]))|31(?=-(0[13578]|1[02])))-(0[1-9]|1[0-2])-[0-9]{4}$";
 	private final static Pattern DATE_PATTERN = java.util.regex.Pattern.compile(DATE_REGEX);
@@ -44,6 +47,7 @@ public class CliApp {
 
 		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(CliApp.class);
 		service = appContext.getBean(ComputerService.class);
+		companyManager = appContext.getBean(CompanyManager.class);
 	
 		List<String> choices = new ArrayList<String>();
 		choices.add("a");
@@ -52,6 +56,7 @@ public class CliApp {
 		choices.add("d");
 		choices.add("e");
 		choices.add("f");
+		choices.add("g");
 		choices.add("exit");
 
 		System.out.println();
@@ -63,6 +68,7 @@ public class CliApp {
 		System.out.println("	- \"d\" to create a computer");
 		System.out.println("	- \"e\" to update a computer");
 		System.out.println("	- \"f\" to delete a computer");
+		System.out.println("	- \"g\" to delete a company");
 		System.out.println("	- Or \"exit\" to... you know, exit.");
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
@@ -90,11 +96,15 @@ public class CliApp {
 		case "f":
 			deleteComputer();
 			break;
+		case "g":
+			deleteCompany();
+			break;
 		case "exit":
 			appContext.close();
 			System.exit(0);
 		}
 	}
+
 
 	private static void showComputers() {
 		@SuppressWarnings("resource")
@@ -141,8 +151,8 @@ public class CliApp {
 	}
 
 	private static void showCompanies() {
-		// TODO Auto-generated method stub
-
+		System.out.println(companyManager.findAll());
+		CLI();
 	}
 
 	private static void showComputerDetails() {
@@ -195,12 +205,24 @@ public class CliApp {
 
 	private static void updateComputer() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	private static void deleteComputer() {
 		// TODO Auto-generated method stub
+	}
+	
+	private static void deleteCompany() {
 
+		Scanner scanner = new Scanner(System.in);
+		String name = null;
+		
+		while (name == null) {
+			System.out.println("Enter company name : ");
+			name = scanner.nextLine();
+		}
+	
+		companyManager.delete(name);
+		CLI();
 	}
 	
 	/**

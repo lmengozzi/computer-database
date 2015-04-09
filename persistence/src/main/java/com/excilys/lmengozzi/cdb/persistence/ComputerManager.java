@@ -3,7 +3,6 @@ package com.excilys.lmengozzi.cdb.persistence;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -134,10 +133,9 @@ public class ComputerManager implements IComputerManager {
 			statement = connection
 					.prepareStatement("SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
 							+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
-							+ "WHERE company.id = ? ;");
+							+ "WHERE company.name = ? ;");
 			statement.setString(1, company);
 			resultSet = statement.executeQuery();
-			resultSet.next();
 			lComputers = cp.parseRows(resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -231,6 +229,7 @@ public class ComputerManager implements IComputerManager {
 				e.printStackTrace();
 			}
 		}
+		LOGGER.info("Deleted computer " + id);
 	}
 	
 	@Override

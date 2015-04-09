@@ -12,7 +12,6 @@ import com.excilys.lmengozzi.cdb.persistence.ComputerManager;
 import com.excilys.lmengozzi.cdb.persistence.IComputerManager;
 
 @Component
-@Transactional
 public class ComputerService implements IComputerService {
 
 	private static ComputerService instance;
@@ -56,6 +55,7 @@ public class ComputerService implements IComputerService {
 	}
 
 	@Override
+	@Transactional
 	public void put(Computer object) throws SQLException {
 		manager.put(object);
 	}

@@ -43,6 +43,9 @@ public class ComputerMapper implements RowMapper<Computer> {
 	 */
 	public List<Computer> parseRows(ResultSet resultSet) throws SQLException {
 		List<Computer> lComputers = new ArrayList<>();
+		if (!resultSet.isBeforeFirst() ) {    
+			 return lComputers;
+		}
 		while (!resultSet.isLast()) {
 			resultSet.next();
 			lComputers.add(mapRow(resultSet, 0));

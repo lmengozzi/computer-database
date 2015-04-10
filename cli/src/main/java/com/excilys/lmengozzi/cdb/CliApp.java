@@ -34,18 +34,18 @@ public class CliApp {
 	private static int pageSize = 50;
 
 	public static void main(String[] args) {
-		@SuppressWarnings("resource")
-		GenericXmlApplicationContext applicationContext = new GenericXmlApplicationContext();
-		applicationContext.load("persistence.xml");
-		applicationContext.refresh();
 		logger.info("CLI Started.");
 		CLI();
 	}
 
 	private static void CLI() {
-
+/*
 		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(
-				CliApp.class);
+				CliApp.class);*/
+		@SuppressWarnings("resource")
+		GenericXmlApplicationContext appContext = new GenericXmlApplicationContext();
+		appContext.load("persistence.xml");
+		appContext.refresh();
 		service = appContext.getBean(IComputerService.class);
 		companyManager = appContext.getBean(ICompanyManager.class);
 

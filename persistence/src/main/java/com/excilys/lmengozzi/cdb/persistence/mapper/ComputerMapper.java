@@ -21,7 +21,7 @@ public class ComputerMapper implements RowMapper<Computer> {
 	private static ComputerMapper instance;
 
 	private ComputerMapper() {
-		
+
 	}
 
 	public static ComputerMapper getInstance() {
@@ -43,8 +43,8 @@ public class ComputerMapper implements RowMapper<Computer> {
 	 */
 	public List<Computer> parseRows(ResultSet resultSet) throws SQLException {
 		List<Computer> lComputers = new ArrayList<>();
-		if (!resultSet.isBeforeFirst() ) {    
-			 return lComputers;
+		if (!resultSet.isBeforeFirst()) {
+			return lComputers;
 		}
 		while (!resultSet.isLast()) {
 			resultSet.next();
@@ -58,15 +58,21 @@ public class ComputerMapper implements RowMapper<Computer> {
 	 * @return A queried computer object.
 	 * @throws SQLException
 	 */
-	public Computer mapRow(ResultSet resultSet, int intuile) throws SQLException {
-		Computer computer = new Computer(resultSet.getLong(1), resultSet.getString(2));
+	public Computer mapRow(ResultSet resultSet, int intuile)
+			throws SQLException {
+		Computer computer = new Computer(resultSet.getLong(1),
+				resultSet.getString(2));
 		String field;
 		Timestamp timeStamp;
 		if ((timeStamp = resultSet.getTimestamp(3)) != null) {
-			computer.setIntroducedDate(LocalDateTime.ofEpochSecond(timeStamp.getTime()/1000, timeStamp.getNanos(), ZoneOffset.UTC));
+			computer.setIntroducedDate(LocalDateTime.ofEpochSecond(
+					timeStamp.getTime() / 1000, timeStamp.getNanos(),
+					ZoneOffset.UTC));
 		}
 		if ((timeStamp = resultSet.getTimestamp(4)) != null) {
-			computer.setDiscontinuedDate(LocalDateTime.ofEpochSecond(timeStamp.getTime()/1000, timeStamp.getNanos(), ZoneOffset.UTC));
+			computer.setDiscontinuedDate(LocalDateTime.ofEpochSecond(
+					timeStamp.getTime() / 1000, timeStamp.getNanos(),
+					ZoneOffset.UTC));
 		}
 		if ((field = resultSet.getString(5)) != null) {
 			computer.setCompany(field);

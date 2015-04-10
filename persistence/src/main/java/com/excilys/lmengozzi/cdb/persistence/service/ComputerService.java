@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import com.excilys.lmengozzi.cdb.persistence.IComputerManager;
 
 @Service
 @Primary
+@Qualifier("computerService")
 public class ComputerService implements IComputerService {
 
 	private static ComputerService instance;

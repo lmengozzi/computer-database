@@ -43,7 +43,7 @@ public class ConnectionManager {
 		// Have the datasource convert zero dates to null to avoid
 		// java.sql.SQLException about zero dates representation
 		source.setZeroDateTimeBehavior("convertToNull");
-		source.setUser(props.getProperty("login"));
+		source.setUser(props.getProperty("username"));
 		source.setPassword(props.getProperty("password"));
 	}
 	

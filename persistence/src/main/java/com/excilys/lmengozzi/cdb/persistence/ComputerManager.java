@@ -21,6 +21,7 @@ import java.sql.Statement;
 import java.sql.Types;
 
 import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,34 +29,38 @@ import org.slf4j.LoggerFactory;
 @Component
 @Primary
 public class ComputerManager implements IComputerManager {
-	
+
 	private static ComputerManager instance;
-	
+
 	public static final Logger LOGGER = LoggerFactory
 			.getLogger(ComputerManager.class);
-	
+
 	@Autowired
 	private ConnectionManager cm;
 	private ComputerMapper cp;
+
+	@Autowired
+	private DataSource datasource;
 	
+	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
+
 	public static ComputerManager getInstance() {
 		if (instance == null) {
 			instance = new ComputerManager();
 		}
 		return instance;
 	}
-	
+
 	private ComputerManager() {
 		cp = ComputerMapper.getInstance();
 	}
-	
+
 	@PostConstruct
 	private void initDatasource() {
-		jdbcTemplate = new JdbcTemplate(cm.getDatasource());
+		jdbcTemplate = new JdbcTemplate(datasource);
 	}
-	
+
 	@Override
 	public Computer findById(long id) {
 		Connection connection = cm.getConnection();
@@ -84,38 +89,15 @@ public class ComputerManager implements IComputerManager {
 		LOGGER.info("Retrieved: " + computer.toString());
 		return computer;
 	}
-	
+
 	@Override
 	public List<Computer> findRange(int start, int end) {
-		List<Computer> lComputers = null;
-		ResultSet resultSet = null;
-		PreparedStatement statement = null;
-		try (Connection connection = cm.getConnection()) {
-			statement = connection
-					.prepareStatement("SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
-							+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
-							+ "ORDER BY company.name, computer.name LIMIT ? OFFSET ?;");
-			statement.setInt(1, end - start);
-			statement.setInt(2, start);
-			resultSet = statement.executeQuery();
-
-			if (!resultSet.isBeforeFirst()) {
-				return new ArrayList<Computer>();
-			}
-			lComputers = cp.parseRows(resultSet);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				statement.close();
-				resultSet.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return lComputers;
+		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
+				+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
+				+ "ORDER BY company.name, computer.name LIMIT ? OFFSET ?;";
+		return jdbcTemplate.query(sql, new Object[] { end - start, start }, cp);
 	}
-	
+
 	@Override
 	public List<Computer> findAll() {
 		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
@@ -123,7 +105,7 @@ public class ComputerManager implements IComputerManager {
 				+ "ORDER BY company.id";
 		return jdbcTemplate.query(sql, cp);
 	}
-	
+
 	@Override
 	public List<Computer> findAllInCompany(String company, Connection connection) {
 		List<Computer> lComputers = null;
@@ -150,13 +132,13 @@ public class ComputerManager implements IComputerManager {
 		LOGGER.info("Retrieved: " + lComputers.toString());
 		return lComputers;
 	}
-	
+
 	@Override
 	// TODO Set manufacturer
 	public void put(Computer computer) {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
-		try(Connection connection = cm.getConnection()) {
+		try (Connection connection = cm.getConnection()) {
 			statement = connection.prepareStatement(
 					"INSERT INTO computer VALUES(default, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
@@ -191,14 +173,14 @@ public class ComputerManager implements IComputerManager {
 		}
 		LOGGER.info("Inserted: " + computer.toString());
 	}
-	
+
 	@Override
 	public void delete(long id) {
-		
+
 		PreparedStatement statement = null;
 		try (Connection connection = cm.getConnection();) {
-			statement = connection.prepareStatement(
-					"DELETE FROM computer WHERE computer.id = ?");
+			statement = connection
+					.prepareStatement("DELETE FROM computer WHERE computer.id = ?");
 			statement.setLong(1, id);
 			statement.executeUpdate();
 		} catch (SQLException e) {
@@ -216,8 +198,8 @@ public class ComputerManager implements IComputerManager {
 	public void delete(long id, Connection connection) {
 		PreparedStatement statement = null;
 		try {
-			statement = connection.prepareStatement(
-					"DELETE FROM computer WHERE computer.id = ?");
+			statement = connection
+					.prepareStatement("DELETE FROM computer WHERE computer.id = ?");
 			statement.setLong(1, id);
 			statement.executeUpdate();
 		} catch (SQLException e) {
@@ -231,7 +213,7 @@ public class ComputerManager implements IComputerManager {
 		}
 		LOGGER.info("Deleted computer " + id);
 	}
-	
+
 	@Override
 	public int getCount() {
 		PreparedStatement statement = null;
@@ -254,7 +236,7 @@ public class ComputerManager implements IComputerManager {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public Computer findById(long id, Connection connection) {
 		Computer computer = null;

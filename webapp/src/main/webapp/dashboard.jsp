@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="mylib" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="mylib" tagdir="/WEB-INF/tags"%>
 <!--jsp:useBean id="computerModel" class="com.excilys.computerdatabase.webapp.computer.view.ComputerBackingBean" /-->
 <!DOCTYPE html>
 <html>
@@ -15,23 +16,32 @@
 </head>
 <body>
 	<jsp:include page="navbar.jsp" />
+
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${computerModel.computerCount}Computers found</h1>
+			<h1 id="homeTitle">${computerModel.computerCount}Computersfound</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="#" method="GET" class="form-inline">
-
-						<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name" /> <input
-							type="submit" id="searchsubmit" value="Filter by name"
+					<form id="searchForm" action="dashboard" method="GET"
+						class="form-inline">
+						<input type="hidden" name="resultsPerPage"
+							value="${resultsPerPage}" /> <input type="hidden" name="page"
+							value="${page}" /> <input type="hidden" name="orderBy"
+							value="${orderBy}" /> <input type="hidden" name="asc"
+							value="${asc}" /> <input type="search" id="searchbox"
+							name="search" class="form-control"
+							placeholder="<spring:message code="dashboard.search_placeholder"/>"
+							value="${searchString}" /> <input type="submit"
+							id="searchsubmit"
+							value="<spring:message code="dashboard.filter_by_name"/>"
 							class="btn btn-primary" />
 					</form>
 				</div>
 				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer" href="addComputer.jsp">Add
-						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
-						onclick="$.fn.toggleEditMode();">Edit</a>
+					<a class="btn btn-success" id="addComputer" href="addComputer"><spring:message
+							code="dashboard.add_computer" /></a> <a class="btn btn-default"
+						id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message
+							code="dashboard.edit" /></a>
 				</div>
 			</div>
 		</div>
@@ -44,7 +54,6 @@
 			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
-
 						<th class="editMode" style="width: 60px; height: 22px;"><input
 							type="checkbox" id="selectall" /> <span
 							style="vertical-align: top;"> - <a href="#"
@@ -61,15 +70,21 @@
 					</tr>
 				</thead>
 				<!-- List Computers -->
-				<tbody id="results">
-					<c:forEach var="i" begin="0" end="${computerModel.pageSize-1}">
+				<tbody>
+					<c:forEach items="${items}" var="computer">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
-								class="cb" value="0"></td>
-							<td><a href="editComputer.html" onclick="">${computerModel.activePage[i].name}</a></td>
-							<td>${computerModel.activePage[i].introducedDate}</td>
-							<td></td>
-							<td>${computerModel.activePage[i].company}</td>
+								class="cb" value="${computer.id}"></td>
+							<td><a
+								href="
+									<c:url value="editComputer">
+									<c:param name="id" value="${computer.id}"/>
+									</c:url>
+									">
+									${computer.name}</a></td>
+							<td>${computer.introduced}</td>
+							<td>${computer.discontinued}</td>
+							<td>${computer.company}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -77,10 +92,11 @@
 		</div>
 	</section>
 
-<footer class="navbar-fixed-bottom">
-	<mylib:page page="${page}" pageSize="${pageSize}"
-	paginationStart="${paginationStart}" paginationFinish="${paginationFinish}" ></mylib:page>
-</footer>
+	<footer class="navbar-fixed-bottom">
+		<mylib:page page="${page}" pageSize="${pageSize}"
+			paginationStart="${paginationStart}"
+			paginationFinish="${paginationFinish}"></mylib:page>
+	</footer>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/dashboard.js"></script>

@@ -11,5 +11,5 @@ public interface IComputerManager extends IDAO<Computer> {
 
 	Computer findById(long id, Connection connection);
 
-	List<Computer> findAllInCompany(String company, Connection connection);
+	List<Computer> findAllInCompany(String company);
 }

@@ -15,8 +15,10 @@ import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 /**
  * Provides methods to connect to the mysql database.
+ * @deprecated Use Spring datasource instead.
  */
 
+@Deprecated
 @Component
 public class ConnectionManager {
 	private Logger LOGGER = LoggerFactory.getLogger(ConnectionManager.class);

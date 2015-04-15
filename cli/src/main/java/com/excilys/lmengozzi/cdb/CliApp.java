@@ -1,6 +1,5 @@
 package com.excilys.lmengozzi.cdb;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +20,7 @@ import com.excilys.lmengozzi.cdb.persistence.service.IComputerService;
 @Component
 public class CliApp {
 
-	private static IComputerService service;
+	private static IComputerService computerService;
 	private static ICompanyManager companyManager;
 
 	private final static String DATE_REGEX = "^(0[1-9]|1[0-9]|2[0-8]|29((?=-([0][13-9]|1[0-2])|(?=-(0[1-9]|1[0-2])-([0-9]{2}(0[48]|[13579][26]|[2468][048])|([02468][048]|[13579][26])00))))|30(?=-(0[13-9]|1[0-2]))|31(?=-(0[13578]|1[02])))-(0[1-9]|1[0-2])-[0-9]{4}$";
@@ -39,15 +37,17 @@ public class CliApp {
 	}
 
 	private static void CLI() {
-/*
-		AnnotationConfigApplicationContext appContext = new AnnotationConfigApplicationContext(
-				CliApp.class);*/
-		@SuppressWarnings("resource")
+
 		GenericXmlApplicationContext appContext = new GenericXmlApplicationContext();
-		appContext.load("persistence.xml");
+		appContext.load("ApplicationContext.xml");
 		appContext.refresh();
-		service = appContext.getBean(IComputerService.class);
+		computerService = appContext.getBean(IComputerService.class);
 		companyManager = appContext.getBean(ICompanyManager.class);
+		List<Computer> lComputers = computerService.findPage(0, 50, "name", true,"");
+		for(Computer c : lComputers) {
+			System.out.println(c.getId());
+		}
+		System.out.println();
 
 		List<String> choices = new ArrayList<String>();
 		choices.add("a");
@@ -119,16 +119,12 @@ public class CliApp {
 
 		boolean exit = false;
 		while (true) {
-			try {
-				computers = service.findPage(page, pageSize);
-				if ((computers) == null) {
-					System.out.println("List ended.");
-					break;
-				}
-				printComputers(computers);
-			} catch (SQLException e) {
-				e.printStackTrace();
+			computers = computerService.findPage(page, pageSize);
+			if ((computers) == null) {
+				System.out.println("List ended.");
+				break;
 			}
+			printComputers(computers);
 
 			String choice = null;
 			while (choice == null || !choices.contains(choice.toLowerCase())) {
@@ -192,13 +188,8 @@ public class CliApp {
 		Computer computer = new Computer(name);
 		computer.setIntroducedDate(introduced);
 		computer.setIntroducedDate(discontinued);
-		try {
-			service.put(computer);
-			System.out.println("Insertion done.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Could not insert: " + e.getMessage());
-		}
+		computerService.put(computer);
+		System.out.println("Insertion done.");
 		CLI();
 	}
 
@@ -211,7 +202,7 @@ public class CliApp {
 	}
 
 	private static void deleteCompany() {
-		
+
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		String name = null;

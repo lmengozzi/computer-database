@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import com.excilys.lmengozzi.cdb.business.Computer;
 
@@ -17,6 +18,7 @@ import com.excilys.lmengozzi.cdb.business.Computer;
  * Used to map a computer tuple from SQL ResultSet to a Computer object.
  * Computer attributes in the same order as the rows in the computer table.
  */
+@Component
 public class ComputerMapper implements RowMapper<Computer> {
 	private static ComputerMapper instance;
 
@@ -41,7 +43,7 @@ public class ComputerMapper implements RowMapper<Computer> {
 	 * @return A list containing the queried Computer objects.
 	 * @throws SQLException
 	 */
-	public List<Computer> parseRows(ResultSet resultSet) throws SQLException {
+	public List<Computer> mapRows(ResultSet resultSet) throws SQLException {
 		List<Computer> lComputers = new ArrayList<>();
 		if (!resultSet.isBeforeFirst()) {
 			return lComputers;

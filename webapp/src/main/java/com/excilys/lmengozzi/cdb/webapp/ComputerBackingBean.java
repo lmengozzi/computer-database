@@ -1,14 +1,14 @@
 package com.excilys.lmengozzi.cdb.webapp;
 
-import java.sql.SQLException;
 import java.util.List;
-
-import com.excilys.lmengozzi.cdb.persistence.service.ComputerService;
-import com.excilys.lmengozzi.cdb.business.Computer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.lmengozzi.cdb.business.Computer;
+import com.excilys.lmengozzi.cdb.persistence.service.ComputerService;
+
+@Deprecated
 public class ComputerBackingBean {
 
 	private static final Logger LOGGER = LoggerFactory
@@ -43,20 +43,18 @@ public class ComputerBackingBean {
 	}
 
 	public void init(int n) {
-		try {
-			computerCount = service.getCount();
-			System.out.println("computerCount: " + computerCount);
-			if (computerCount % pageSize == 0) {
-				pageCount = computerCount / pageSize;
-			} else {
-				pageCount = computerCount / pageSize + 1;
-			}
-			n = n < 0 ? 0 : n;
-			n = n > pageCount - 1 ? pageCount - 1 : n;
-			activePage = service.findPage(n, pageSize);
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage());
+		LOGGER.trace("Initializing Backing bean...");
+		computerCount = service.getCount();
+		System.out.println("computerCount: " + computerCount);
+		if (computerCount % pageSize == 0) {
+			pageCount = computerCount / pageSize;
+		} else {
+			pageCount = computerCount / pageSize + 1;
 		}
+		n = n < 0 ? 0 : n;
+		n = n > pageCount - 1 ? pageCount - 1 : n;
+		activePage = service.findPage(n, pageSize);
+		LOGGER.trace("Backing bean ready.");
 	}
 
 	public int getPaginationStart() {
@@ -84,12 +82,8 @@ public class ComputerBackingBean {
 	}
 
 	public String activatePage(int i) {
-		try {
-			page = i;
-			activePage = service.findPage(i, pageSize);
-		} catch (SQLException e) {
-			LOGGER.error(e.getMessage());
-		}
+		page = i;
+		activePage = service.findPage(i, pageSize);
 		return "#";
 	}
 

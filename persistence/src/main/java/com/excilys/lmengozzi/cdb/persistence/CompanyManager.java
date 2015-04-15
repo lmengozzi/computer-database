@@ -7,10 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +33,14 @@ public class CompanyManager implements ICompanyManager {
 
 	@Autowired
 	private ConnectionManager cm;
-	
+
 	@Autowired
 	private ComputerManager computerManager;
+
+	@Autowired
+	private DataSource dataSource;
+
+	private JdbcTemplate jdbcTemplate;
 
 	private CompanyMapper cmap;
 
@@ -46,6 +55,12 @@ public class CompanyManager implements ICompanyManager {
 		cmap = CompanyMapper.getInstance();
 	}
 
+	@PostConstruct
+	public void initDatasource() {
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
+
+	@Override
 	public long findByName(String name) {
 		Connection connection = cm.getConnection();
 		long companyId = -1;
@@ -83,7 +98,6 @@ public class CompanyManager implements ICompanyManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-
 			try {
 				statement.close();
 				resultSet.close();
@@ -91,9 +105,7 @@ public class CompanyManager implements ICompanyManager {
 				e.printStackTrace();
 			}
 		}
-
 		LOGGER.debug("Retrieved: " + company.toString());
-
 		return company;
 	}
 
@@ -153,6 +165,12 @@ public class CompanyManager implements ICompanyManager {
 		LOGGER.debug("Retrieved: " + lCompanies);
 		return lCompanies;
 	}
+	
+	@Override
+	public List<String> findPage(int page, int pageSize, String orderBy,
+			boolean ascending, String search) {
+		return findRange(page * pageSize, page * pageSize + pageSize);
+	}
 
 	@Override
 	// TODO Save the company id
@@ -199,42 +217,22 @@ public class CompanyManager implements ICompanyManager {
 		return result;
 	}
 
-	// TODO tout doux
+	@Override
 	@Transactional
 	public void delete(String company) {
-		PreparedStatement statement = null;
-		List<Computer> lComputers = null;
-		Connection connection = cm.getConnection();
-		try {
-			connection.setAutoCommit(false);
-			lComputers = computerManager.findAllInCompany(company, connection);
-			for(Computer c : lComputers) {
-				computerManager.delete(c.getId(), connection);
-			}
-			statement = connection.prepareStatement(
-					"DELETE FROM company WHERE company.name = ?");
-			statement.setString(1, company);
-			statement.executeUpdate();
-			connection.commit();
-		} catch (SQLException e) {
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
-		} finally {
-			try {
-				statement.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		List<Computer> lComputers;
+		lComputers = computerManager.findAllInCompany(company);
+		for (Computer c : lComputers) {
+			computerManager.delete(c.getId());
 		}
+		String sql = "DELETE FROM company WHERE company.name = ?";
+		jdbcTemplate.update(sql, new Object[] { company });
 	}
 
 	@Override
+	@Transactional
 	public void delete(long id) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

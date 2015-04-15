@@ -1,6 +1,5 @@
 package com.excilys.lmengozzi.cdb.persistence.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,38 +37,45 @@ public class ComputerService implements IComputerService {
 	 *         <code>page</code> in the computer database.
 	 */
 	@Override
-	public List<Computer> findPage(int page, int pageSize) throws SQLException {
+	public List<Computer> findPage(int page, int pageSize) {
 		return manager.findRange(pageSize * page, pageSize * page + pageSize);
 	}
 
 	@Override
-	public Computer findById(long id) throws SQLException {
+	public List<Computer> findPage(int page, int pageSize, String orderBy,
+			boolean ascending, String search) {
+		return manager.findPage(page, pageSize, orderBy, ascending, search);
+	}
+
+	@Override
+	public Computer findById(long id) {
 		return manager.findById(id);
 	}
 
 	@Override
-	public List<Computer> findAll() throws SQLException {
+	public List<Computer> findAll() {
 		return manager.findAll();
 	}
 
 	@Override
-	public List<Computer> findRange(int start, int end) throws SQLException {
+	public List<Computer> findRange(int start, int end) {
 		return manager.findRange(start, end);
 	}
 
 	@Override
-	public void put(Computer object) throws SQLException {
+	public void put(Computer object) {
 		manager.put(object);
 	}
 
 	@Override
-	public int getCount() throws SQLException {
+	public int getCount() {
 		return manager.getCount();
 	}
 
 	@Override
-	public void delete(long id) throws SQLException {
+	public void delete(long id) {
 		manager.delete(id);
 	}
+
 
 }

@@ -1,7 +1,5 @@
 package com.excilys.lmengozzi.cdb.persistence;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -40,8 +38,8 @@ public class ComputerManager implements IComputerManager {
 	private ComputerMapper cp;
 
 	@Autowired
-	private DataSource datasource;
-	
+	private DataSource dataSource;
+
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -58,36 +56,38 @@ public class ComputerManager implements IComputerManager {
 
 	@PostConstruct
 	private void initDatasource() {
-		jdbcTemplate = new JdbcTemplate(datasource);
+		jdbcTemplate.setDataSource(dataSource);
 	}
 
 	@Override
 	public Computer findById(long id) {
-		Connection connection = cm.getConnection();
-		Computer computer = null;
-		ResultSet resultSet = null;
-		PreparedStatement statement = null;
-		try {
-			statement = connection
-					.prepareStatement("SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
-							+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
-							+ "WHERE computer.id = ? ;");
-			statement.setLong(1, id);
-			resultSet = statement.executeQuery();
-			connection.close();
-			computer = cp.mapRow(resultSet, 0);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				statement.close();
-				resultSet.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
+				+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
+				+ "WHERE computer.id = ? ;";
+		Computer computer = jdbcTemplate.queryForObject(sql,
+				new Object[] { id }, cp);
 		LOGGER.info("Retrieved: " + computer.toString());
 		return computer;
+	}
+
+	@Override
+	public List<Computer> findPage(int start, int end, String orderBy,
+			boolean ascending, String search) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(orderBy);/*
+		if (ascending) {
+			stringBuilder.append(" ASC");
+		} else {
+			stringBuilder.append(" DESC");
+		}*/
+		orderBy = stringBuilder.toString();
+		System.out.println(orderBy);
+		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
+				+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
+				+ "WHERE computer.name LIKE ? "
+				+ "ORDER BY ? LIMIT ? OFFSET ? ";
+		return jdbcTemplate.query(sql, new Object[] { "%" + search + "%",
+				orderBy, end - start, start }, cp);
 	}
 
 	@Override
@@ -107,34 +107,15 @@ public class ComputerManager implements IComputerManager {
 	}
 
 	@Override
-	public List<Computer> findAllInCompany(String company, Connection connection) {
-		List<Computer> lComputers = null;
-		ResultSet resultSet = null;
-		PreparedStatement statement = null;
-		try {
-			statement = connection
-					.prepareStatement("SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
-							+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
-							+ "WHERE company.name = ? ;");
-			statement.setString(1, company);
-			resultSet = statement.executeQuery();
-			lComputers = cp.parseRows(resultSet);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				statement.close();
-				resultSet.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		LOGGER.info("Retrieved: " + lComputers.toString());
-		return lComputers;
+	public List<Computer> findAllInCompany(String company) {
+		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
+				+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
+				+ "WHERE company.name = ?";
+		return jdbcTemplate.query(sql, new Object[] { company }, cp);
 	}
 
 	@Override
-	// TODO Set manufacturer
+	// TODO put using JdbcTemplate...
 	public void put(Computer computer) {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
@@ -176,24 +157,11 @@ public class ComputerManager implements IComputerManager {
 
 	@Override
 	public void delete(long id) {
-
-		PreparedStatement statement = null;
-		try (Connection connection = cm.getConnection();) {
-			statement = connection
-					.prepareStatement("DELETE FROM computer WHERE computer.id = ?");
-			statement.setLong(1, id);
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				statement.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		String sql = "DELETE FROM computer WHERE computer.id = ?";
+		jdbcTemplate.update(sql, new Object[] { id });
 	}
 
+	@Deprecated
 	@Override
 	public void delete(long id, Connection connection) {
 		PreparedStatement statement = null;

@@ -5,7 +5,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompanyMapper {
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
+
+@Component
+public class CompanyMapper implements RowMapper<String> {
 	
 	private static CompanyMapper instance;
 
@@ -17,7 +21,7 @@ public class CompanyMapper {
 		if (instance == null)
 			instance = new CompanyMapper();
 		return instance;
-	}
+	}	
 
 	/**
 	 * @param resultSet
@@ -29,13 +33,18 @@ public class CompanyMapper {
 	 */
 	public List<String> parseRows(ResultSet resultSet) throws SQLException {
 		List<String> lCompanies = new ArrayList<>();
-		// parseRow uses resultSet.next() before it parses the row, so stop at
-		// last row
+		// next() before the row is parsed, 
+		// so stop at last row
 		while (!resultSet.isLast()) {
 			resultSet.next();
 			lCompanies.add(resultSet.getString(1));
 		}
 		return lCompanies;
+	}
+
+	@Override
+	public String mapRow(ResultSet resultSet, int arg1) throws SQLException {
+		return resultSet.getString(1);
 	}
 
 }

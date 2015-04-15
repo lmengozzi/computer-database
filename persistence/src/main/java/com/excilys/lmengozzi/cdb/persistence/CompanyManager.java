@@ -105,7 +105,7 @@ public class CompanyManager implements ICompanyManager {
 				e.printStackTrace();
 			}
 		}
-		LOGGER.debug("Retrieved: " + company.toString());
+		LOGGER.debug("Retrieved: " + company);
 		return company;
 	}
 
@@ -174,7 +174,7 @@ public class CompanyManager implements ICompanyManager {
 
 	@Override
 	// TODO Save the company id
-	public void put(String company) {
+	public void create(String company) {
 		PreparedStatement statement = null;
 		try (Connection connection = cm.getConnection()) {
 			statement = connection

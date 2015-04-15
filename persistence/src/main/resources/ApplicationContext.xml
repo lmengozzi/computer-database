@@ -26,7 +26,18 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	<tx:annotation-driven transaction-manager="transactionManager"
-		proxy-target-class="true" />
-	<context:component-scan base-package="com.excilys.lmengozzi.cdb.persistence com.excilys.lmengozzi.cdb" />
+	<bean id="mySessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="packagesToScan" value="com.excilys.lmengozzi.cdb.business" />
+		<property name="hibernateProperties">
+            <value>
+                hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+            </value>
+        </property>
+    </bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+		
+	<context:component-scan base-package="com.excilys.lmengozzi.cdb.persistence com.excilys.lmengozzi.cdb.business" />
+	
 </beans>

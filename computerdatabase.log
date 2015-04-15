@@ -1,0 +1,64 @@
+15:42:33.163 [http-nio-8080-exec-15] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+15:42:33.812 [http-nio-8080-exec-15] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+15:44:19.208 [http-nio-8080-exec-17] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+15:44:19.605 [http-nio-8080-exec-17] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+15:47:08.390 [http-nio-8080-exec-24] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+15:47:08.452 [http-nio-8080-exec-24] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+15:55:56.236 [http-nio-8080-exec-25] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+15:55:56.254 [http-nio-8080-exec-25] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:30:00.920 [http-nio-8080-exec-26] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:30:00.939 [http-nio-8080-exec-26] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:30:04.112 [http-nio-8080-exec-26] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:30:04.716 [http-nio-8080-exec-26] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:32:19.682 [http-nio-8080-exec-34] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:32:19.706 [http-nio-8080-exec-34] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:32:44.825 [http-nio-8080-exec-35] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:32:44.840 [http-nio-8080-exec-35] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:32:45.917 [http-nio-8080-exec-36] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:32:45.936 [http-nio-8080-exec-36] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:32:46.997 [http-nio-8080-exec-37] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:32:47.011 [http-nio-8080-exec-37] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:32:47.942 [http-nio-8080-exec-38] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:32:47.965 [http-nio-8080-exec-38] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:32:48.926 [http-nio-8080-exec-33] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:32:48.938 [http-nio-8080-exec-33] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:32:52.042 [http-nio-8080-exec-38] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:32:52.423 [http-nio-8080-exec-38] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:36:45.638 [http-nio-8080-exec-46] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:36:46.002 [http-nio-8080-exec-46] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:36:47.361 [http-nio-8080-exec-40] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:36:47.382 [http-nio-8080-exec-40] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:36:48.304 [http-nio-8080-exec-41] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:36:48.319 [http-nio-8080-exec-41] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:36:49.415 [http-nio-8080-exec-47] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:36:49.433 [http-nio-8080-exec-47] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:36:50.441 [http-nio-8080-exec-43] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:36:50.460 [http-nio-8080-exec-43] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+16:46:38.397 [http-nio-8080-exec-56] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+16:46:38.756 [http-nio-8080-exec-56] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+17:20:28.430 [http-nio-8080-exec-67] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+17:20:29.012 [http-nio-8080-exec-67] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+17:20:36.335 [http-nio-8080-exec-69] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+17:20:36.357 [http-nio-8080-exec-69] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+17:20:37.580 [http-nio-8080-exec-66] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+17:20:37.601 [http-nio-8080-exec-66] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+17:20:40.118 [http-nio-8080-exec-70] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+17:20:40.127 [http-nio-8080-exec-70] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+17:20:41.042 [http-nio-8080-exec-62] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+17:20:41.050 [http-nio-8080-exec-62] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+17:20:42.059 [http-nio-8080-exec-61] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+17:20:42.074 [http-nio-8080-exec-61] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+17:20:54.995 [http-nio-8080-exec-68] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+17:20:55.009 [http-nio-8080-exec-68] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+17:20:55.947 [http-nio-8080-exec-64] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+17:20:55.960 [http-nio-8080-exec-64] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+17:20:57.849 [http-nio-8080-exec-60] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+17:20:57.863 [http-nio-8080-exec-60] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+17:20:58.479 [http-nio-8080-exec-65] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+17:20:58.492 [http-nio-8080-exec-65] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+17:21:06.541 [http-nio-8080-exec-69] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+17:21:06.553 [http-nio-8080-exec-69] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+17:21:07.901 [http-nio-8080-exec-71] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+17:21:07.915 [http-nio-8080-exec-71] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent
+17:24:33.218 [http-nio-8080-exec-70] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard
+17:24:33.237 [http-nio-8080-exec-70] TRACE c.e.l.cdb.webapp.DashboardController - GET called on /dashboard : Showing dashboard, response sent

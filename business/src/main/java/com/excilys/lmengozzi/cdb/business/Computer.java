@@ -2,10 +2,12 @@ package com.excilys.lmengozzi.cdb.business;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+@Entity
 public class Computer {
 
 	@NotNull
@@ -55,7 +57,7 @@ public class Computer {
 	}
 	
 	public void setName(String name) throws Exception {
-		if (name != "")
+		if (!name.equals(""))
 			this.name = name;
 		else
 			throw new Exception("Computer name must not be null");

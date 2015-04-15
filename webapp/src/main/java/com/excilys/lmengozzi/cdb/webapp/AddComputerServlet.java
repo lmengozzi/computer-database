@@ -44,7 +44,7 @@ public class AddComputerServlet extends HttpServlet {
 		String discontinued = req.getParameter("discontinued").trim();
 		discontinued = discontinued.isEmpty() ? null : discontinued;
 		String companyName = req.getParameter("companyName").trim();
-		companyName = companyName == "" ? null : companyName;
+		companyName = companyName.isEmpty() ? null : companyName;
 
 		ComputerValidator validator = ComputerValidator.getInstance();
 		validator.name(name);
@@ -57,7 +57,7 @@ public class AddComputerServlet extends HttpServlet {
 		} else {
 			DateTimeFormatter formatter = DateTimeFormatter
 					.ofPattern("dd-MM-uuu HH:mm:ss");
-			computerManager.put(new Computer(name, LocalDateTime.parse(
+			computerManager.create(new Computer(name, LocalDateTime.parse(
 					introduced + " 00:00:00", formatter), LocalDateTime.parse(
 					discontinued + " 00:00:00", formatter), null));
 		}

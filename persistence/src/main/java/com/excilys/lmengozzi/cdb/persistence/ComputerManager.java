@@ -69,27 +69,27 @@ public class ComputerManager implements IComputerManager {
 		LOGGER.info("Retrieved: " + computer.toString());
 		return computer;
 	}
-
+	
 	@Override
 	public List<Computer> findPage(int start, int end, String orderBy,
 			boolean ascending, String search) {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(orderBy);/*
+		stringBuilder.append(orderBy);
 		if (ascending) {
 			stringBuilder.append(" ASC");
 		} else {
 			stringBuilder.append(" DESC");
-		}*/
+		}
 		orderBy = stringBuilder.toString();
 		System.out.println(orderBy);
 		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
 				+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
 				+ "WHERE computer.name LIKE ? "
-				+ "ORDER BY ? LIMIT ? OFFSET ? ";
+				+ "ORDER BY computer.name LIMIT ? OFFSET ? ";
 		return jdbcTemplate.query(sql, new Object[] { "%" + search + "%",
 				orderBy, end - start, start }, cp);
 	}
-
+	
 	@Override
 	public List<Computer> findRange(int start, int end) {
 		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
@@ -116,14 +116,13 @@ public class ComputerManager implements IComputerManager {
 
 	@Override
 	// TODO put using JdbcTemplate...
-	public void put(Computer computer) {
+	public void create(Computer computer) {
 		PreparedStatement statement = null;
 		ResultSet resultSet = null;
 		try (Connection connection = cm.getConnection()) {
 			statement = connection.prepareStatement(
 					"INSERT INTO computer VALUES(default, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
-
 			statement.setString(1, computer.getName());
 			if (!(computer.getIntroducedDate() == null)) {
 				statement.setDate(2, new Date(computer.getIntroducedDate()

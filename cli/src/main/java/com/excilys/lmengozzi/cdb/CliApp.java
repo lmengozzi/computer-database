@@ -37,17 +37,11 @@ public class CliApp {
 	}
 
 	private static void CLI() {
-
 		GenericXmlApplicationContext appContext = new GenericXmlApplicationContext();
 		appContext.load("ApplicationContext.xml");
 		appContext.refresh();
 		computerService = appContext.getBean(IComputerService.class);
 		companyManager = appContext.getBean(ICompanyManager.class);
-		List<Computer> lComputers = computerService.findPage(0, 50, "name", true,"");
-		for(Computer c : lComputers) {
-			System.out.println(c.getId());
-		}
-		System.out.println();
 
 		List<String> choices = new ArrayList<String>();
 		choices.add("a");

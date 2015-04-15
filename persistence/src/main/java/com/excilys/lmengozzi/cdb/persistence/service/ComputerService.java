@@ -64,7 +64,7 @@ public class ComputerService implements IComputerService {
 
 	@Override
 	public void put(Computer object) {
-		manager.put(object);
+		manager.create(object);
 	}
 
 	@Override

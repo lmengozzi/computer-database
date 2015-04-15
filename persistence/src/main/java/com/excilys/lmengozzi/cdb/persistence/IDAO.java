@@ -13,7 +13,7 @@ public interface IDAO<T> {
 	List<T> findPage(int page, int pageSize, String orderBy,
 			boolean ascending, String search);
 	
-	void put(T object);
+	void create(T object);
 	
 	int getCount();
 	

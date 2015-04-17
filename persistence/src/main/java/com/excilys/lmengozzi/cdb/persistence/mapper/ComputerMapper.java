@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.lmengozzi.cdb.business.Company;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -64,7 +65,7 @@ public class ComputerMapper implements RowMapper<Computer> {
 			throws SQLException {
 		Computer computer = new Computer(resultSet.getLong(1),
 				resultSet.getString(2));
-		String field;
+		String companyField;
 		Timestamp timeStamp;
 		if ((timeStamp = resultSet.getTimestamp(3)) != null) {
 			computer.setIntroducedDate(LocalDateTime.ofEpochSecond(
@@ -76,8 +77,8 @@ public class ComputerMapper implements RowMapper<Computer> {
 					timeStamp.getTime() / 1000, timeStamp.getNanos(),
 					ZoneOffset.UTC));
 		}
-		if ((field = resultSet.getString(5)) != null) {
-			computer.setCompany(field);
+		if ((companyField = resultSet.getString(5)) != null) {
+			computer.setCompany(new Company(companyField));
 		}
 		return computer;
 	}

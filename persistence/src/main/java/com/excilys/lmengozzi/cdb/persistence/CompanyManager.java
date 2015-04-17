@@ -24,6 +24,7 @@ import com.excilys.lmengozzi.cdb.persistence.mapper.CompanyMapper;
 // TODO Finish CompanyManager
 @Service
 @Primary
+@Transactional
 public class CompanyManager implements ICompanyManager {
 
 	private static CompanyManager instance;
@@ -38,8 +39,6 @@ public class CompanyManager implements ICompanyManager {
 	private ComputerManager computerManager;
 
 	@Autowired
-	private DataSource dataSource;
-
 	private JdbcTemplate jdbcTemplate;
 
 	private CompanyMapper cmap;
@@ -53,11 +52,6 @@ public class CompanyManager implements ICompanyManager {
 
 	public CompanyManager() {
 		cmap = CompanyMapper.getInstance();
-	}
-
-	@PostConstruct
-	public void initDatasource() {
-		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
 	@Override
@@ -218,7 +212,6 @@ public class CompanyManager implements ICompanyManager {
 	}
 
 	@Override
-	@Transactional
 	public void delete(String company) {
 		List<Computer> lComputers;
 		lComputers = computerManager.findAllInCompany(company);
@@ -230,7 +223,6 @@ public class CompanyManager implements ICompanyManager {
 	}
 
 	@Override
-	@Transactional
 	public void delete(long id) {
 		// TODO Auto-generated method stub
 

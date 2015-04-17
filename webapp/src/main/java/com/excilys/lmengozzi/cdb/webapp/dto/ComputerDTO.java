@@ -1,13 +1,17 @@
 package com.excilys.lmengozzi.cdb.webapp.dto;
 
+import com.excilys.lmengozzi.cdb.business.Company;
 import com.excilys.lmengozzi.cdb.business.Computer;
 
+import javax.validation.constraints.NotNull;
+
 public class ComputerDTO {
+	@NotNull
 	private long id;
 	private String name;
 	private String introduced;
 	private String discontinued;
-	private String company;
+	private CompanyDTO company;
 
 	public ComputerDTO() {
 	}
@@ -26,7 +30,7 @@ public class ComputerDTO {
 			discontinued = null;
 		}
 		if (computer.getCompany() != null) {
-			company = computer.getCompany();
+			company = new CompanyDTO(computer.getCompany());
 		} else {
 			company = null;
 		}
@@ -64,11 +68,11 @@ public class ComputerDTO {
 		this.discontinued = discontinued;
 	}
 
-	public String getCompany() {
+	public CompanyDTO getCompanyDTO() {
 		return company;
 	}
 
-	public void setCompany(String company) {
+	public void setCompanyDTO(CompanyDTO company) {
 		this.company = company;
 	}
 }

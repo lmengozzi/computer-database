@@ -36,24 +36,26 @@ public class ComputerValidator {
 	public boolean discontinued(String discontinuedString) {
 		return date(discontinuedString);
 	}
-	
+
 	public boolean introduced(String introducedString) {
 		return date(introducedString);
 	}
 
 	public boolean company(String manufacturer) {
-		if (manufacturer == null)
+		if (manufacturer == null) {
 			return true;
-		if (manufacturer.length() > 256)
+		}
+		if (manufacturer.length() > 256) {
 			return false;
+		}
 		return true;
 	}
-	
+
 	private boolean date(String dateString) {
 		if (dateString == null)
 			return true;
 		Matcher matcher = DATE_PATTERN.matcher(dateString);
-		if(!matcher.matches())
+		if (!matcher.matches())
 			return false;
 		return true;
 	}

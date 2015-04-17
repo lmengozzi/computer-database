@@ -1,47 +1,40 @@
 package com.excilys.lmengozzi.cdb.persistence;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
-
 import com.excilys.lmengozzi.cdb.business.Computer;
 import com.excilys.lmengozzi.cdb.persistence.mapper.ComputerMapper;
-
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
-
-import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
-@Component
+import java.sql.*;
+import java.util.List;
+
+@Repository
 @Primary
 public class ComputerManager implements IComputerManager {
 
-	private static ComputerManager instance;
 
 	public static final Logger LOGGER = LoggerFactory
 			.getLogger(ComputerManager.class);
 
-	@Autowired
-	private ConnectionManager cm;
 	private ComputerMapper cp;
 
 	@Autowired
-	private DataSource dataSource;
+	private ConnectionManager cm;
 
+	//TODO Replace dat crap
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	private SessionFactory sessionFactory;
+
+	private static ComputerManager instance;
 
 	public static ComputerManager getInstance() {
 		if (instance == null) {
@@ -50,13 +43,8 @@ public class ComputerManager implements IComputerManager {
 		return instance;
 	}
 
-	private ComputerManager() {
+	public ComputerManager() {
 		cp = ComputerMapper.getInstance();
-	}
-
-	@PostConstruct
-	private void initDatasource() {
-		jdbcTemplate.setDataSource(dataSource);
 	}
 
 	@Override
@@ -65,14 +53,14 @@ public class ComputerManager implements IComputerManager {
 				+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
 				+ "WHERE computer.id = ? ;";
 		Computer computer = jdbcTemplate.queryForObject(sql,
-				new Object[] { id }, cp);
+				new Object[]{id}, cp);
 		LOGGER.info("Retrieved: " + computer.toString());
 		return computer;
 	}
-	
+
 	@Override
 	public List<Computer> findPage(int start, int end, String orderBy,
-			boolean ascending, String search) {
+								   boolean ascending, String search) {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(orderBy);
 		if (ascending) {
@@ -86,24 +74,21 @@ public class ComputerManager implements IComputerManager {
 				+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
 				+ "WHERE computer.name LIKE ? "
 				+ "ORDER BY computer.name LIMIT ? OFFSET ? ";
-		return jdbcTemplate.query(sql, new Object[] { "%" + search + "%",
-				orderBy, end - start, start }, cp);
+		return jdbcTemplate.query(sql, new Object[]{"%" + search + "%",
+				orderBy, end - start, start}, cp);
 	}
-	
+
 	@Override
 	public List<Computer> findRange(int start, int end) {
 		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
 				+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
 				+ "ORDER BY company.name, computer.name LIMIT ? OFFSET ?;";
-		return jdbcTemplate.query(sql, new Object[] { end - start, start }, cp);
+		return jdbcTemplate.query(sql, new Object[]{end - start, start}, cp);
 	}
 
 	@Override
 	public List<Computer> findAll() {
-		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
-				+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
-				+ "ORDER BY company.id";
-		return jdbcTemplate.query(sql, cp);
+		return sessionFactory.openSession().createCriteria(Computer.class).list();
 	}
 
 	@Override
@@ -111,7 +96,7 @@ public class ComputerManager implements IComputerManager {
 		String sql = "SELECT computer.id, computer.name, computer.introduced, computer.discontinued, company.name "
 				+ "FROM computer LEFT OUTER JOIN company ON computer.company_id = company.id "
 				+ "WHERE company.name = ?";
-		return jdbcTemplate.query(sql, new Object[] { company }, cp);
+		return jdbcTemplate.query(sql, new Object[]{company}, cp);
 	}
 
 	@Override
@@ -157,7 +142,7 @@ public class ComputerManager implements IComputerManager {
 	@Override
 	public void delete(long id) {
 		String sql = "DELETE FROM computer WHERE computer.id = ?";
-		jdbcTemplate.update(sql, new Object[] { id });
+		jdbcTemplate.update(sql, new Object[]{id});
 	}
 
 	@Deprecated

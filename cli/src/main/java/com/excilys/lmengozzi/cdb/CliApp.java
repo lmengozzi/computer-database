@@ -8,6 +8,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.hibernate.jpa.internal.EntityManagerFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.GenericXmlApplicationContext;
@@ -17,7 +18,8 @@ import com.excilys.lmengozzi.cdb.business.Computer;
 import com.excilys.lmengozzi.cdb.persistence.ICompanyManager;
 import com.excilys.lmengozzi.cdb.persistence.service.IComputerService;
 
-@Component
+import javax.persistence.EntityManagerFactory;
+
 public class CliApp {
 
 	private static IComputerService computerService;
@@ -33,15 +35,17 @@ public class CliApp {
 
 	public static void main(String[] args) {
 		logger.info("CLI Started.");
-		CLI();
-	}
-
-	private static void CLI() {
 		GenericXmlApplicationContext appContext = new GenericXmlApplicationContext();
 		appContext.load("ApplicationContext.xml");
 		appContext.refresh();
 		computerService = appContext.getBean(IComputerService.class);
 		companyManager = appContext.getBean(ICompanyManager.class);
+		CLI();
+		appContext.close();
+	}
+
+	private static void CLI() {
+		System.out.println(computerService.findAll());
 
 		List<String> choices = new ArrayList<String>();
 		choices.add("a");
@@ -94,7 +98,6 @@ public class CliApp {
 			deleteCompany();
 			break;
 		case "exit":
-			appContext.close();
 			System.exit(0);
 		}
 	}

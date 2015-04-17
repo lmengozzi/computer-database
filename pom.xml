@@ -24,7 +24,7 @@
 		<version.dependency.mockito>2.0.4-beta</version.dependency.mockito>
 		<version.dependency.validation>1.1.0.Final</version.dependency.validation>
 		<version.dependency.bonecp>0.8.0.RELEASE</version.dependency.bonecp>
-		<version.dependency.spring>4.2.0.BUILD-SNAPSHOT</version.dependency.spring>
+		<version.dependency.spring>4.1.6.RELEASE</version.dependency.spring>
 		<version.dependency.dbcp>2.1</version.dependency.dbcp>
 		<version.dependency.hibernate>4.3.8.Final</version.dependency.hibernate>
 		<version.dependency.hibernate.validator>5.1.3.Final</version.dependency.hibernate.validator>

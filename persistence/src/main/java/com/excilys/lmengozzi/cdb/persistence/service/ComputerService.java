@@ -11,9 +11,12 @@ import com.excilys.lmengozzi.cdb.business.Computer;
 import com.excilys.lmengozzi.cdb.persistence.ComputerManager;
 import com.excilys.lmengozzi.cdb.persistence.IComputerManager;
 
+import javax.transaction.Transactional;
+
 @Service
 @Primary
 @Qualifier("computerService")
+@Transactional
 public class ComputerService implements IComputerService {
 
 	private static ComputerService instance;
@@ -21,7 +24,7 @@ public class ComputerService implements IComputerService {
 	@Autowired
 	private IComputerManager manager;
 
-	private ComputerService() {
+	public ComputerService() {
 		manager = ComputerManager.getInstance();
 	}
 

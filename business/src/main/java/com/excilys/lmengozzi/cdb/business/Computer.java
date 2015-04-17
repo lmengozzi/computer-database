@@ -2,25 +2,29 @@ package com.excilys.lmengozzi.cdb.business;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
-@Entity
+@Entity(name = "computer")
 public class Computer {
 
-	@NotNull
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
 	protected long id;
-	@NotNull
+
 	@Size(min = 1, max = 256)
 	protected String name;
-	@Past
+
 	protected LocalDateTime introducedDate;
-	@Past
+
 	protected LocalDateTime discontinuedDate;
-	@Size(min = 0, max = 256)
-	protected String company;
+
+	@ManyToOne
+	@JoinColumn(name = "company_id")
+	protected Company company;
 	
 	public Computer() {
 		
@@ -36,7 +40,7 @@ public class Computer {
 	}
 	
 	public Computer(String name, LocalDateTime introducedDate,
-			LocalDateTime discontinuedDate, String manufacturer) {
+			LocalDateTime discontinuedDate, Company manufacturer) {
 		this.name = name;
 		this.introducedDate = introducedDate;
 		this.discontinuedDate = discontinuedDate;
@@ -44,7 +48,7 @@ public class Computer {
 	}
 	
 	public Computer(long id, String name, LocalDateTime introducedDate,
-			LocalDateTime discontinuedDate, String manufacturer) {
+			LocalDateTime discontinuedDate, Company manufacturer) {
 		this.id = id;
 		this.name = name;
 		this.introducedDate = introducedDate;
@@ -109,11 +113,11 @@ public class Computer {
 		this.discontinuedDate = discontinuedDate;
 	}
 
-	public String getCompany() {
+	public Company getCompany() {
 		return company;
 	}
 
-	public void setCompany(String manufacturer) {
+	public void setCompany(Company manufacturer) {
 		this.company = manufacturer;
 	}
 }

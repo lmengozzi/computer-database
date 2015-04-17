@@ -1,43 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/tx
 	http://www.springframework.org/schema/tx/spring-tx.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd">
-	
-	<context:annotation-config/>
-	<context:property-placeholder location="classpath:sql.properties" />
-	
-	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-		destroy-method="close">
-		<property name="driverClassName" value="${driver}" />
-		<property name="url" value="${jdbc-url}" />
-		<property name="username" value="${username}" />
-		<property name="password" value="${password}" />
-	</bean>
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	<bean id="mySessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"/>
-		<property name="packagesToScan" value="com.excilys.lmengozzi.cdb.business" />
-		<property name="hibernateProperties">
-            <value>
-                hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
-            </value>
-        </property>
+
+    <context:annotation-config/>
+    <context:property-placeholder location="classpath:sql.properties"/>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="${driver}"/>
+        <property name="url" value="${jdbc-url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
     </bean>
-	
-	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
-		
-	<context:component-scan base-package="com.excilys.lmengozzi.cdb.persistence com.excilys.lmengozzi.cdb.business" />
-	
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- Hibernate -->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+        <property name="packagesToScan" value="com.excilys.lmengozzi.cdb.business"/>
+    </bean>
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+          p:sessionFactory-ref="sessionFactory">
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    <context:component-scan base-package="com.excilys.lmengozzi.cdb.persistence com.excilys.lmengozzi.cdb.business"/>
+
 </beans>

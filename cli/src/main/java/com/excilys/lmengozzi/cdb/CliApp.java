@@ -9,17 +9,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.excilys.lmengozzi.cdb.persistence.service.ICompanyService;
-import org.hibernate.jpa.internal.EntityManagerFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.GenericXmlApplicationContext;
-import org.springframework.stereotype.Component;
 
-import com.excilys.lmengozzi.cdb.business.Computer;
-import com.excilys.lmengozzi.cdb.persistence.ICompanyManager;
+import com.excilys.lmengozzi.cdb.persistence.entity.Computer;
 import com.excilys.lmengozzi.cdb.persistence.service.IComputerService;
-
-import javax.persistence.EntityManagerFactory;
 
 public class CliApp {
 
@@ -117,11 +112,12 @@ public class CliApp {
 		boolean exit = false;
 		while (true) {
 			computers = computerService.findPage(page, pageSize);
+
+			printComputers(computers);
 			if (computers.size() < pageSize) {
 				System.out.println("List ended.");
 				break;
 			}
-			printComputers(computers);
 
 			String choice = null;
 			while (choice == null || !choices.contains(choice.toLowerCase())) {
@@ -185,7 +181,7 @@ public class CliApp {
 		Computer computer = new Computer(name);
 		computer.setIntroducedDate(introduced);
 		computer.setIntroducedDate(discontinued);
-		computerService.put(computer);
+		computerService.create(computer);
 		System.out.println("Insertion done.");
 		CLI();
 	}
@@ -236,9 +232,7 @@ public class CliApp {
 	}
 
 	private static void printComputers(List<Computer> lComputers) {
-		for (Computer c : lComputers) {
-			System.out.println(c);
-		}
+		lComputers.forEach(System.out::println);
 	}
 
 }

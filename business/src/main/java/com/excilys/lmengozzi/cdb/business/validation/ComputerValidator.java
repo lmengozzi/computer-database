@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
  * Validates Computer attributes. Each validating method returns true if the
  * argument is valid, false otherwise.
  */
+@Deprecated
 public class ComputerValidator {
 
 	private final static String DATE_REGEX = "^(0[1-9]|1[0-9]|2[0-8]|29((?=-([0][13-9]|1[0-2])|(?=-(0[1-9]|1[0-2])-([0-9]{2}(0[48]|[13579][26]|[2468][048])|([02468][048]|[13579][26])00))))|30(?=-(0[13-9]|1[0-2]))|31(?=-(0[13578]|1[02])))-(0[1-9]|1[0-2])-[0-9]{4}$";

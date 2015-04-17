@@ -9,11 +9,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.excilys.lmengozzi.cdb.business.Company;
+import com.excilys.lmengozzi.cdb.persistence.entity.Company;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import com.excilys.lmengozzi.cdb.business.Computer;
+import com.excilys.lmengozzi.cdb.persistence.entity.Computer;
 
 /**
  * Used to map a computer tuple from SQL ResultSet to a Computer object.

@@ -21,9 +21,6 @@
         <property name="username" value="${username}"/>
         <property name="password" value="${password}"/>
     </bean>
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
     <!-- Hibernate -->
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -35,7 +32,7 @@
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>
         </property>
-        <property name="packagesToScan" value="com.excilys.lmengozzi.cdb.business"/>
+        <property name="packagesToScan" value="com.excilys.lmengozzi.cdb.persistence.entity"/>
     </bean>
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate4.HibernateTransactionManager"

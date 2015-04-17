@@ -6,7 +6,7 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 
 /**
  * 
- * Test class for {@link com.excilys.lmengozzi.cdb.persistence.ComputerManager}
+ * Test class for {@link com.excilys.lmengozzi.cdb.persistence.ComputerDAO}
  *
  */
 
@@ -14,7 +14,7 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 /* code below crashes with java.lang.NoClassDefFoundError: org/junit/runners/model/MultipleFailureException
 @ContextConfiguration(locations = { "classpath:ApplicationContext.xml" })
 @RunWith(SpringJUnit4ClassRunner.class) */
-public class ComputerManagerTest {
+public class ComputerDAOTest {
 	
 	IComputerManager manager;
 

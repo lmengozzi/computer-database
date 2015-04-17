@@ -2,12 +2,11 @@ package com.excilys.lmengozzi.cdb.persistence.service;
 
 import java.util.List;
 
+import com.excilys.lmengozzi.cdb.persistence.entity.Computer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import com.excilys.lmengozzi.cdb.business.Computer;
-import com.excilys.lmengozzi.cdb.persistence.ComputerManager;
 import com.excilys.lmengozzi.cdb.persistence.IComputerManager;
 
 import javax.transaction.Transactional;
@@ -27,7 +26,7 @@ public class ComputerService implements IComputerService {
 
 	@Override
 	public List<Computer> findPage(int page, int pageSize, String orderBy,
-			boolean ascending, String search) {
+								   boolean ascending, String search) {
 		return manager.findPage(page, pageSize, orderBy, ascending, search);
 	}
 
@@ -47,7 +46,7 @@ public class ComputerService implements IComputerService {
 	}
 
 	@Override
-	public void put(Computer object) {
+	public void create(Computer object) {
 		manager.create(object);
 	}
 

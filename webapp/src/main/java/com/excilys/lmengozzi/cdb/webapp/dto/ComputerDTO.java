@@ -1,13 +1,18 @@
 package com.excilys.lmengozzi.cdb.webapp.dto;
 
-import com.excilys.lmengozzi.cdb.business.Company;
-import com.excilys.lmengozzi.cdb.business.Computer;
+import com.excilys.lmengozzi.cdb.persistence.entity.Computer;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 
+@Component
+@Validated
 public class ComputerDTO {
+
 	@NotNull
 	private long id;
+	@NotNull(message = "You need to enter a name. Please.")
 	private String name;
 	private String introduced;
 	private String discontinued;

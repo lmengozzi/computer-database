@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.excilys.lmengozzi.cdb.business.Computer;
+import com.excilys.lmengozzi.cdb.persistence.entity.Computer;
 import com.excilys.lmengozzi.cdb.persistence.service.ComputerService;
 import com.excilys.lmengozzi.cdb.webapp.dto.ComputerDTO;
 
@@ -23,6 +23,7 @@ import com.excilys.lmengozzi.cdb.webapp.dto.ComputerDTO;
 public class DashboardController {
 	final Logger logger = LoggerFactory.getLogger(DashboardController.class);
 	private static final int PAGE_NUMBER = 5;
+
 	@Autowired
 	private ComputerService computerService;
 	private Map<String, String> orderByStrings = new HashMap<>();
@@ -44,7 +45,7 @@ public class DashboardController {
 			@RequestParam(required = false) String orderBy,
 			@RequestParam(required = false) Boolean asc, Model model) {
 		logger.trace("GET called on /dashboard");
-		int pageAmount;
+		long pageAmount;
 		List<Computer> computerPage;
 		if (page == null) {
 			page = 1;

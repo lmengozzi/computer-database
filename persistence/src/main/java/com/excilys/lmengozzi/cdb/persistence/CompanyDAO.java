@@ -1,40 +1,25 @@
 package com.excilys.lmengozzi.cdb.persistence;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
-
-import com.excilys.lmengozzi.cdb.business.Company;
+import com.excilys.lmengozzi.cdb.persistence.entity.Company;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.excilys.lmengozzi.cdb.business.Computer;
-import com.excilys.lmengozzi.cdb.persistence.mapper.CompanyMapper;
 
 // TODO Finish CompanyManager
 @Repository
 @Primary
-public class CompanyManager implements ICompanyManager {
+public class CompanyDAO implements ICompanyManager {
 
 	public static final Logger LOGGER = LoggerFactory
-			.getLogger(CompanyManager.class);
+			.getLogger(CompanyDAO.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;

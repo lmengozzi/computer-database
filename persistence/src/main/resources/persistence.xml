@@ -1,11 +1,12 @@
+<!-- des précatèdes -->
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
     <persistence-unit name="persistenceUnit" transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>com.excilys.lmengozzi.cdb.business.Computer</class>
-        <class>com.excilys.lmengozzi.cdb.business.Company</class>
+        <class>com.excilys.lmengozzi.cdb.persistence.entity.Computer</class>
+        <class>com.excilys.lmengozzi.cdb.persistence.entity.Company</class>
         <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
         <properties>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />

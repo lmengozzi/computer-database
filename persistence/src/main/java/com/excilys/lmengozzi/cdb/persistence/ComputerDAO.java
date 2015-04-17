@@ -1,7 +1,7 @@
 package com.excilys.lmengozzi.cdb.persistence;
 
-import com.excilys.lmengozzi.cdb.business.Company;
-import com.excilys.lmengozzi.cdb.business.Computer;
+import com.excilys.lmengozzi.cdb.persistence.entity.Company;
+import com.excilys.lmengozzi.cdb.persistence.entity.Computer;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
@@ -18,10 +18,10 @@ import java.util.List;
 
 @Repository
 @Primary
-public class ComputerManager implements IComputerManager {
+public class ComputerDAO implements IComputerManager {
 
 	public static final Logger LOGGER = LoggerFactory
-			.getLogger(ComputerManager.class);
+			.getLogger(ComputerDAO.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -57,7 +57,6 @@ public class ComputerManager implements IComputerManager {
 	}
 
 	@Override
-	// TODO put using JdbcTemplate...
 	public void create(Computer computer) {
 		sessionFactory.getCurrentSession().save(computer);
 	}

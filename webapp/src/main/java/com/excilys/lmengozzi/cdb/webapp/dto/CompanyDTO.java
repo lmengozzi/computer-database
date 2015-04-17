@@ -1,9 +1,14 @@
 package com.excilys.lmengozzi.cdb.webapp.dto;
 
-import com.excilys.lmengozzi.cdb.business.Company;
+import com.excilys.lmengozzi.cdb.persistence.entity.Company;
+
+import javax.validation.constraints.*;
 
 public class CompanyDTO {
+
+	@NotNull
 	long id;
+	@NotNull(message = "You need to enter a name. Please.")
 	String name;
 
 	public CompanyDTO(Company company) {

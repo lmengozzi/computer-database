@@ -2,8 +2,6 @@ package com.excilys.lmengozzi.cdb.persistence.service;
 
 import java.util.List;
 
-import com.excilys.lmengozzi.cdb.business.Computer;
-
 public interface IService<T> {
 
 	T findById(long id);
@@ -12,14 +10,14 @@ public interface IService<T> {
 	
 	List<T> findRange(int start, int end);
 	
-	void put(T object);
+	void create(T object);
 	
 	long getCount();
 	
 	void delete(long id);
 	
-	List<Computer> findPage(int page, int pageSize);
+	List<T> findPage(int page, int pageSize);
 	
-	List<Computer> findPage(int page, int pageSize, String orderBy,
+	List<T> findPage(int page, int pageSize, String orderBy,
 			boolean ascending, String search);
 }

@@ -1,15 +1,13 @@
-package com.excilys.lmengozzi.cdb.business;
+package com.excilys.lmengozzi.cdb.persistence.entity;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-
-import java.time.LocalDateTime;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
+
 
 @Entity(name = "computer")
 public class Computer {
@@ -19,11 +17,14 @@ public class Computer {
 	@Column(name = "id")
 	protected long id;
 
-	@Size(min = 1, max = 256)
 	protected String name;
 
+	@Type(type = "com.excilys.lmengozzi.cdb.persistence.util.LocalDateTimeConverter")
+	@Column(name = "introduced", nullable = true)
 	protected LocalDateTime introducedDate;
 
+	@Type(type = "com.excilys.lmengozzi.cdb.persistence.util.LocalDateTimeConverter")
+	@Column(name = "discontinued", nullable = true)
 	protected LocalDateTime discontinuedDate;
 
 	@ManyToOne

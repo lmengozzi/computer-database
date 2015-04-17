@@ -1,8 +1,8 @@
 package com.excilys.lmengozzi.cdb.webapp;
 
-import com.excilys.lmengozzi.cdb.business.Computer;
+import com.excilys.lmengozzi.cdb.persistence.entity.Computer;
 import com.excilys.lmengozzi.cdb.business.validation.ComputerValidator;
-import com.excilys.lmengozzi.cdb.persistence.ComputerManager;
+import com.excilys.lmengozzi.cdb.persistence.ComputerDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,14 +19,14 @@ public class AddComputerServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	protected ComputerManager computerManager;
+	protected ComputerDAO computerDAO;
 
 	public AddComputerServlet() {
-		this(ComputerManager.getInstance());
+		this(ComputerDAO.getInstance());
 	}
 
-	protected AddComputerServlet(ComputerManager computerManager) {
-		this.computerManager = computerManager;
+	protected AddComputerServlet(ComputerDAO computerDAO) {
+		this.computerDAO = computerDAO;
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class AddComputerServlet extends HttpServlet {
 		} else {
 			DateTimeFormatter formatter = DateTimeFormatter
 					.ofPattern("dd-MM-uuu HH:mm:ss");
-			computerManager.create(new Computer(name, LocalDateTime.parse(
+			computerDAO.create(new Computer(name, LocalDateTime.parse(
 					introduced + " 00:00:00", formatter), LocalDateTime.parse(
 					discontinued + " 00:00:00", formatter), null));
 		}

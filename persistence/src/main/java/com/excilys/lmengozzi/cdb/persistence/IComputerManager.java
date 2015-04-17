@@ -1,10 +1,9 @@
 package com.excilys.lmengozzi.cdb.persistence;
 
-import java.sql.Connection;
 import java.util.List;
 
-import com.excilys.lmengozzi.cdb.business.Company;
-import com.excilys.lmengozzi.cdb.business.Computer;
+import com.excilys.lmengozzi.cdb.persistence.entity.Company;
+import com.excilys.lmengozzi.cdb.persistence.entity.Computer;
 
 public interface IComputerManager extends IDAO<Computer> {
 

@@ -1,7 +1,6 @@
-package com.excilys.lmengozzi.cdb.business;
+package com.excilys.lmengozzi.cdb.persistence.entity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity(name = "company")
 public class Company {

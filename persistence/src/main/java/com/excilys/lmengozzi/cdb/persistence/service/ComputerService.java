@@ -3,7 +3,6 @@ package com.excilys.lmengozzi.cdb.persistence.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -15,30 +14,12 @@ import javax.transaction.Transactional;
 
 @Service
 @Primary
-@Qualifier("computerService")
 @Transactional
 public class ComputerService implements IComputerService {
-
-	private static ComputerService instance;
 
 	@Autowired
 	private IComputerManager manager;
 
-	public ComputerService() {
-		manager = ComputerManager.getInstance();
-	}
-
-	public static ComputerService getInstance() {
-		if (instance == null) {
-			instance = new ComputerService();
-		}
-		return instance;
-	}
-
-	/**
-	 * @return A list of at most <code>pageSize</code> computers at index
-	 *         <code>page</code> in the computer database.
-	 */
 	@Override
 	public List<Computer> findPage(int page, int pageSize) {
 		return manager.findRange(pageSize * page, pageSize * page + pageSize);
@@ -71,7 +52,7 @@ public class ComputerService implements IComputerService {
 	}
 
 	@Override
-	public int getCount() {
+	public long getCount() {
 		return manager.getCount();
 	}
 
@@ -79,6 +60,4 @@ public class ComputerService implements IComputerService {
 	public void delete(long id) {
 		manager.delete(id);
 	}
-
-
 }

@@ -20,6 +20,7 @@ import com.excilys.lmengozzi.cdb.business.Computer;
  * Computer attributes in the same order as the rows in the computer table.
  */
 @Component
+@Deprecated
 public class ComputerMapper implements RowMapper<Computer> {
 	private static ComputerMapper instance;
 

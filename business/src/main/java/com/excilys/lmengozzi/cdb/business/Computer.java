@@ -1,8 +1,12 @@
 package com.excilys.lmengozzi.cdb.business;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -23,6 +27,7 @@ public class Computer {
 	protected LocalDateTime discontinuedDate;
 
 	@ManyToOne
+	@Cascade(CascadeType.DELETE)
 	@JoinColumn(name = "company_id")
 	protected Company company;
 	

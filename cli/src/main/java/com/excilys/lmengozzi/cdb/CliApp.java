@@ -8,6 +8,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.excilys.lmengozzi.cdb.persistence.service.ICompanyService;
 import org.hibernate.jpa.internal.EntityManagerFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ import javax.persistence.EntityManagerFactory;
 public class CliApp {
 
 	private static IComputerService computerService;
-	private static ICompanyManager companyManager;
+	private static ICompanyService companyManager;
 
 	private final static String DATE_REGEX = "^(0[1-9]|1[0-9]|2[0-8]|29((?=-([0][13-9]|1[0-2])|(?=-(0[1-9]|1[0-2])-([0-9]{2}(0[48]|[13579][26]|[2468][048])|([02468][048]|[13579][26])00))))|30(?=-(0[13-9]|1[0-2]))|31(?=-(0[13578]|1[02])))-(0[1-9]|1[0-2])-[0-9]{4}$";
 	private final static Pattern DATE_PATTERN = java.util.regex.Pattern
@@ -39,13 +40,12 @@ public class CliApp {
 		appContext.load("ApplicationContext.xml");
 		appContext.refresh();
 		computerService = appContext.getBean(IComputerService.class);
-		companyManager = appContext.getBean(ICompanyManager.class);
+		companyManager = appContext.getBean(ICompanyService.class);
 		CLI();
 		appContext.close();
 	}
 
 	private static void CLI() {
-		System.out.println(computerService.findAll());
 
 		List<String> choices = new ArrayList<String>();
 		choices.add("a");
@@ -76,29 +76,29 @@ public class CliApp {
 			choice = scanner.next();
 		}
 		switch (choice.toLowerCase()) {
-		case "a":
-			showComputers();
-			break;
-		case "b":
-			showCompanies();
-			break;
-		case "c":
-			showComputerDetails();
-			break;
-		case "d":
-			createComputer();
-			break;
-		case "e":
-			updateComputer();
-			break;
-		case "f":
-			deleteComputer();
-			break;
-		case "g":
-			deleteCompany();
-			break;
-		case "exit":
-			System.exit(0);
+			case "a":
+				showComputers();
+				break;
+			case "b":
+				showCompanies();
+				break;
+			case "c":
+				showComputerDetails();
+				break;
+			case "d":
+				createComputer();
+				break;
+			case "e":
+				updateComputer();
+				break;
+			case "f":
+				deleteComputer();
+				break;
+			case "g":
+				deleteCompany();
+				break;
+			case "exit":
+				System.exit(0);
 		}
 	}
 
@@ -117,7 +117,7 @@ public class CliApp {
 		boolean exit = false;
 		while (true) {
 			computers = computerService.findPage(page, pageSize);
-			if ((computers) == null) {
+			if (computers.size() < pageSize) {
 				System.out.println("List ended.");
 				break;
 			}
@@ -129,12 +129,12 @@ public class CliApp {
 				choice = scanner.next();
 			}
 			switch (choice.toLowerCase()) {
-			case "y":
-				page++;
-				break;
-			case "n":
-				exit = true;
-				break;
+				case "y":
+					page++;
+					break;
+				case "n":
+					exit = true;
+					break;
 			}
 			if (exit)
 				break;
@@ -209,7 +209,7 @@ public class CliApp {
 			name = scanner.nextLine();
 		}
 
-		companyManager.delete(name);
+		//companyManager.delete(name);
 		CLI();
 	}
 

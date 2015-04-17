@@ -15,7 +15,7 @@ public interface IDAO<T> {
 	
 	void create(T object);
 	
-	int getCount();
+	long getCount();
 	
 	void delete(long id);
 

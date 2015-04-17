@@ -14,12 +14,12 @@ public interface IService<T> {
 	
 	void put(T object);
 	
-	int getCount();
+	long getCount();
 	
 	void delete(long id);
 	
-	public List<Computer> findPage(int page, int pageSize);
+	List<Computer> findPage(int page, int pageSize);
 	
-	public List<Computer> findPage(int page, int pageSize, String orderBy,
+	List<Computer> findPage(int page, int pageSize, String orderBy,
 			boolean ascending, String search);
 }

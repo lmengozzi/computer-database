@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
+@Deprecated
 public class CompanyMapper implements RowMapper<String> {
 	
 	private static CompanyMapper instance;

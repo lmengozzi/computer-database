@@ -69,12 +69,12 @@ public class ComputerMapper implements RowMapper<Computer> {
 		String companyField;
 		Timestamp timeStamp;
 		if ((timeStamp = resultSet.getTimestamp(3)) != null) {
-			computer.setIntroducedDate(LocalDateTime.ofEpochSecond(
+			computer.setIntroduced(LocalDateTime.ofEpochSecond(
 					timeStamp.getTime() / 1000, timeStamp.getNanos(),
 					ZoneOffset.UTC));
 		}
 		if ((timeStamp = resultSet.getTimestamp(4)) != null) {
-			computer.setDiscontinuedDate(LocalDateTime.ofEpochSecond(
+			computer.setDiscontinued(LocalDateTime.ofEpochSecond(
 					timeStamp.getTime() / 1000, timeStamp.getNanos(),
 					ZoneOffset.UTC));
 		}

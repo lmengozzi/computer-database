@@ -15,14 +15,20 @@ public class Company {
     public Company() {
     }
 
+    public Company(String name) {
+        this.name = name;
+    }
+
+    public Company(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return name;
     }
 
-    public Company(String name) {
-        this.name = name;
-    }
 
     @Override
     public boolean equals(Object o) {

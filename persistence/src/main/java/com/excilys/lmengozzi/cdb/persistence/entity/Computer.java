@@ -20,71 +20,68 @@ public class Computer {
 
 	@Type(type = "com.excilys.lmengozzi.cdb.persistence.util.LocalDateTimeConverter")
 	@Column(name = "introduced", nullable = true)
-	protected LocalDateTime introducedDate;
+	protected LocalDateTime introduced;
 
 	@Type(type = "com.excilys.lmengozzi.cdb.persistence.util.LocalDateTimeConverter")
 	@Column(name = "discontinued", nullable = true)
-	protected LocalDateTime discontinuedDate;
+	protected LocalDateTime discontinued;
 
 	@ManyToOne
 	@Cascade(CascadeType.DELETE)
 	@JoinColumn(name = "company_id")
 	protected Company company;
-	
+
 	public Computer() {
-		
+
 	}
-	
+
 	public Computer(String name) {
 		this.name = name;
 	}
-	
+
 	public Computer(long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
-	
-	public Computer(String name, LocalDateTime introducedDate,
-			LocalDateTime discontinuedDate, Company manufacturer) {
+
+	public Computer(String name, LocalDateTime introduced,
+					LocalDateTime discontinued, Company manufacturer) {
 		this.name = name;
-		this.introducedDate = introducedDate;
-		this.discontinuedDate = discontinuedDate;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
 		this.company = manufacturer;
 	}
-	
-	public Computer(long id, String name, LocalDateTime introducedDate,
-			LocalDateTime discontinuedDate, Company manufacturer) {
+
+	public Computer(long id, String name, LocalDateTime introduced,
+					LocalDateTime discontinued, Company manufacturer) {
 		this.id = id;
 		this.name = name;
-		this.introducedDate = introducedDate;
-		this.discontinuedDate = discontinuedDate;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
 		this.company = manufacturer;
 	}
 
 	public String getName() {
 		return name;
 	}
-	
-	public void setName(String name) throws Exception {
-		if (!name.equals(""))
-			this.name = name;
-		else
-			throw new Exception("Computer name must not be null");
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	
+
 	@Override
 	public String toString() {
 
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("Computer name: ");
 		buffer.append(name);
-		if (introducedDate != null) {
+		if (introduced != null) {
 			buffer.append(", introduced: ");
-			buffer.append(introducedDate);
+			buffer.append(introduced);
 		}
-		if (discontinuedDate != null) {
+		if (discontinued != null) {
 			buffer.append(", discontinued: ");
-			buffer.append(discontinuedDate);
+			buffer.append(discontinued);
 		}
 		if (company != null) {
 			buffer.append(", manufacturer: ");
@@ -102,20 +99,20 @@ public class Computer {
 		this.id = id;
 	}
 
-	public LocalDateTime getIntroducedDate() {
-		return introducedDate;
+	public LocalDateTime getIntroduced() {
+		return introduced;
 	}
 
-	public void setIntroducedDate(LocalDateTime introducedDate) {
-		this.introducedDate = introducedDate;
+	public void setIntroduced(LocalDateTime introducedDate) {
+		this.introduced = introducedDate;
 	}
 
-	public LocalDateTime getDiscontinuedDate() {
-		return discontinuedDate;
+	public LocalDateTime getDiscontinued() {
+		return discontinued;
 	}
 
-	public void setDiscontinuedDate(LocalDateTime discontinuedDate) {
-		this.discontinuedDate = discontinuedDate;
+	public void setDiscontinued(LocalDateTime discontinuedDate) {
+		this.discontinued = discontinuedDate;
 	}
 
 	public Company getCompany() {

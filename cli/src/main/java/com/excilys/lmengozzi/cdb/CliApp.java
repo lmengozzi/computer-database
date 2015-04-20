@@ -180,8 +180,8 @@ public class CliApp {
 				scannedLine + " 00:00:00", formatter);
 
 		Computer computer = new Computer(name);
-		computer.setIntroducedDate(introduced);
-		computer.setIntroducedDate(discontinued);
+		computer.setIntroduced(introduced);
+		computer.setIntroduced(discontinued);
 		computerService.create(computer);
 		System.out.println("Insertion done.");
 		CLI();

@@ -24,13 +24,13 @@ public class ComputerDTO {
 	public ComputerDTO(Computer computer) {
 		id = computer.getId();
 		name = computer.getName();
-		if (computer.getIntroducedDate() != null) {
-			introduced = computer.getIntroducedDate().toLocalDate().toString();
+		if (computer.getIntroduced() != null) {
+			introduced = computer.getIntroduced().toLocalDate().toString();
 		} else {
 			introduced = null;
 		}
-		if (computer.getDiscontinuedDate() != null) {
-			discontinued = computer.getDiscontinuedDate().toLocalDate().toString();
+		if (computer.getDiscontinued() != null) {
+			discontinued = computer.getDiscontinued().toLocalDate().toString();
 		} else {
 			discontinued = null;
 		}

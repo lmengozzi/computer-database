@@ -19,19 +19,19 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${computerModel.computerCount}Computersfound</h1>
+			<h1 id="homeTitle">${computerCount} Computersfound</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="dashboard" method="GET"
 						class="form-inline">
 						<input type="hidden" name="resultsPerPage"
-							value="${resultsPerPage}" /> <input type="hidden" name="page"
+							value="${pageSize}" /> <input type="hidden" name="page"
 							value="${page}" /> <input type="hidden" name="orderBy"
 							value="${orderBy}" /> <input type="hidden" name="asc"
 							value="${asc}" /> <input type="search" id="searchbox"
 							name="search" class="form-control"
 							placeholder="<spring:message code="dashboard.search_placeholder"/>"
-							value="${searchString}" /> <input type="submit"
+							value="${search}" /> <input type="submit"
 							id="searchsubmit"
 							value="<spring:message code="dashboard.filter_by_name"/>"
 							class="btn btn-primary" />
@@ -84,7 +84,7 @@
 									${computer.name}</a></td>
 							<td>${computer.introduced}</td>
 							<td>${computer.discontinued}</td>
-							<td>${computer.company}</td>
+							<td>${computer.companyDTO.name}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -95,7 +95,7 @@
 	<footer class="navbar-fixed-bottom">
 		<mylib:page page="${page}" pageSize="${pageSize}"
 			paginationStart="${paginationStart}"
-			paginationFinish="${paginationFinish}"></mylib:page>
+			paginationFinish="${paginationFinish}"/>
 	</footer>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>

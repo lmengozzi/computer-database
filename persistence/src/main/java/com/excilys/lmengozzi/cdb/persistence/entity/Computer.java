@@ -5,7 +5,6 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 import java.time.LocalDateTime;
 
 

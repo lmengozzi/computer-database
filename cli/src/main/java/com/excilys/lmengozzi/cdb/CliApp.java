@@ -151,8 +151,8 @@ public class CliApp {
 	public static void createComputer() {
 		Scanner scanner = new Scanner(System.in);
 		String name = null;
-		LocalDateTime introduced = null;
-		LocalDateTime discontinued = null;
+		LocalDateTime introduced;
+		LocalDateTime discontinued;
 
 		DateTimeFormatter formatter = DateTimeFormatter
 				.ofPattern("uuuu/MM/dd HH:mm:ss");

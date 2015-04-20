@@ -40,6 +40,6 @@
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
-    <context:component-scan base-package="com.excilys.lmengozzi.cdb.persistence com.excilys.lmengozzi.cdb.business"/>
+    <context:component-scan base-package="com.excilys.lmengozzi.cdb.persistence"/>
 
 </beans>

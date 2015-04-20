@@ -12,7 +12,7 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 
 //TODO ComputerManagerTest
 /* code below crashes with java.lang.NoClassDefFoundError: org/junit/runners/model/MultipleFailureException
-@ContextConfiguration(locations = { "classpath:ApplicationContext.xml" })
+@ContextConfiguration(locations = { "classpath:persistenceContext.xml" })
 @RunWith(SpringJUnit4ClassRunner.class) */
 public class ComputerDAOTest {
 	
@@ -22,7 +22,8 @@ public class ComputerDAOTest {
 	@Ignore("Spring test not functionnal")
 	public void findPageTest() {
 		GenericXmlApplicationContext appContext = new GenericXmlApplicationContext();
-		appContext.load("ApplicationContext.xml");
+		appContext.load("applicationContext.xml");
+		appContext.load("persistenceContext.xml");
 		appContext.refresh();
 		manager = appContext.getBean(IComputerManager.class);
 		manager.findPage(0, 50, "name", true, "Amiga");

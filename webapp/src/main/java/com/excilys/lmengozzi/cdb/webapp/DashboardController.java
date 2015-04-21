@@ -26,6 +26,7 @@ import com.excilys.lmengozzi.cdb.webapp.dto.ComputerDTO;
 @Controller
 @RequestMapping("/dashboard")
 public class DashboardController {
+
 	final Logger logger = LoggerFactory.getLogger(DashboardController.class);
 	private static final int PAGE_NUMBER = 5;
 

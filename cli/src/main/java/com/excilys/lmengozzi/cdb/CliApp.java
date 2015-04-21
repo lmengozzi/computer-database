@@ -27,7 +27,7 @@ public class CliApp {
 
 	private static final Logger logger = LoggerFactory.getLogger(CliApp.class);
 
-	private static int pageSize = 50;
+	private static final int PAGESIZE = 50;
 
 	public static void main(String[] args) {
 		logger.info("CLI Started.");
@@ -112,10 +112,10 @@ public class CliApp {
 
 		boolean exit = false;
 		while (true) {
-			computers = computerService.findPage(page, pageSize);
+			computers = computerService.findPage(page, PAGESIZE);
 
 			printComputers(computers);
-			if (computers.size() < pageSize) {
+			if (computers.size() < PAGESIZE) {
 				System.out.println("List ended.");
 				break;
 			}
@@ -144,8 +144,8 @@ public class CliApp {
 		CLI();
 	}
 
+	//TODO CLI showComputerDetails()
 	private static void showComputerDetails() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -187,14 +187,17 @@ public class CliApp {
 		CLI();
 	}
 
+	//TODO CLI updateComputer()
 	private static void updateComputer() {
-		// TODO Auto-generated method stub
+
 	}
 
+	//TODO CLI deleteComputer()
 	private static void deleteComputer() {
-		// TODO Auto-generated method stub
+
 	}
 
+	//TODO CLI deleteCompany()
 	private static void deleteCompany() {
 
 		@SuppressWarnings("resource")

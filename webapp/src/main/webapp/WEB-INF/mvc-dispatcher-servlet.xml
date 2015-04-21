@@ -26,6 +26,7 @@
             <security:user-service>
                 <security:user name="Duke" password="bfg" authorities="ROLE_USER, ROLE_ADMIN" />
                 <security:user name="PrinceOfPersil" password="rtfm" authorities="ROLE_USER" />
+                <security:user name="legolasdu92" password="1234" authorities="NO_ROLE" />
             </security:user-service>
         </security:authentication-provider>
     </security:authentication-manager>

@@ -18,24 +18,24 @@
 		<!-- Dependencies versions -->
 		<version.dependency.mysqlconnector>5.1.34</version.dependency.mysqlconnector>
 		<version.dependency.logback>1.1.2</version.dependency.logback>
-		<version.dependency.log4j>1.2.17</version.dependency.log4j>
 		<version.dependency.slf4j>1.7.10</version.dependency.slf4j>
 		<version.dependency.junit>4.8.1</version.dependency.junit>
 		<version.dependency.mockito>2.0.4-beta</version.dependency.mockito>
 		<version.dependency.validation>1.1.0.Final</version.dependency.validation>
-		<version.dependency.bonecp>0.8.0.RELEASE</version.dependency.bonecp>
 		<version.dependency.spring>4.1.6.RELEASE</version.dependency.spring>
 		<version.dependency.dbcp>2.1</version.dependency.dbcp>
 		<version.dependency.hibernate>4.3.8.Final</version.dependency.hibernate>
 		<version.dependency.hibernate.validator>5.1.3.Final</version.dependency.hibernate.validator>
 		<version.dependency.apache.validator>1.4.1</version.dependency.apache.validator>
+		<version.dependency.spring.security>3.2.7.RELEASE</version.dependency.spring.security>
+		<version.dependency.jstl>1.2</version.dependency.jstl>
 
 		<!-- Plugins versions -->
 		<version.plugin.war>2.6</version.plugin.war>
 		<version.plugin.tomcat>2.2</version.plugin.tomcat>
 		<version.plugin.javacompiler>3.1</version.plugin.javacompiler>
 		<version.plugin.exec>1.3.2</version.plugin.exec>
-		<version.plugin.assembly>2.5.3</version.plugin.assembly>
+		<version.plugin.shade>2.3</version.plugin.shade>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -43,10 +43,11 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+				<!-- Using Shade transformers to avoid problems with Spring configuration files overwriting each other -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-shade-plugin</artifactId>
-					<version>2.3</version>
+					<version>${version.plugin.shade}</version>
 					<configuration>
 						<transformers>
 							<transformer
@@ -171,7 +172,16 @@
 			</dependency>
 
 			<!-- Spring Security -->
-			
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-config</artifactId>
+				<version>${version.dependency.spring.security}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-taglibs</artifactId>
+				<version>${version.dependency.spring.security}</version>
+			</dependency>
 			
 			<!-- Hibernate -->
 			<dependency>
@@ -200,11 +210,18 @@
 				<version>${version.dependency.mysqlconnector}</version>
 			</dependency>
 
-			<!-- Apache -->
+			<!-- Apache Validation -->
 			<dependency>
 				<groupId>commons-validator</groupId>
 				<artifactId>commons-validator</artifactId>
 				<version>${version.dependency.apache.validator}</version>
+			</dependency>
+
+			<!-- JSTL -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jstl</artifactId>
+				<version>${version.dependency.jstl}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

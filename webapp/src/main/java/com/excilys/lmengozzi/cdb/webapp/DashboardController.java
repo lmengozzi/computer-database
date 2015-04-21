@@ -88,7 +88,7 @@ public class DashboardController {
 		model.addAttribute("paginationStart",
 				Math.max(1, page - PAGE_NUMBER));
 		model.addAttribute(
-				"paginationFinish",
+				"paginationEnd",
 				Math.min(page + PAGE_NUMBER,
 						pageAmount + 1));
 		model.addAttribute("page", page + 1);

@@ -93,9 +93,10 @@
 	</section>
 
 	<footer class="navbar-fixed-bottom">
-		<mylib:page page="${page}" pageSize="${pageSize}"
-			paginationStart="${paginationStart}"
-			paginationFinish="${paginationFinish}"/>
+		<footer class="navbar-fixed-bottom">
+			<mylib:page currentPageNumber="${currentPageNumber}" resultsPerPage="${resultsPerPage}"
+							  paginationStart="${paginationStart}" paginationEnd="${paginationFinish}"/>
+		</footer>
 	</footer>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>

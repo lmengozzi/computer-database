@@ -1,0 +1,51 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+		   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		   http://www.springframework.org/schema/security
+		   http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+    <http pattern="/css/**" security="none" />
+    <http pattern="/js/**" security="none" />
+    <http pattern="/fonts/**" security="none" />
+    <http pattern="/images/**" security="none" />
+
+    <beans:import resource="classpath:persistenceContext.xml" />
+
+    <authentication-manager>
+        <!--
+        <authentication-provider>
+            <jdbc-user-service data-source-ref="dataSource" />
+        </authentication-provider>
+         -->
+        <authentication-provider user-service-ref="userDetailsService"/>
+    </authentication-manager>
+
+    <beans:bean id="userDetailsService"
+                class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+        <beans:property name="dataSource" ref="dataSource" />
+    </beans:bean>
+
+    <beans:bean id="digestFilter"
+                class="org.springframework.security.web.authentication.www.DigestAuthenticationFilter">
+        <beans:property name="userDetailsService" ref="userDetailsService" />
+        <beans:property name="authenticationEntryPoint" ref="digestEntryPoint" />
+    </beans:bean>
+
+    <beans:bean id="digestEntryPoint"
+                class="org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint">
+        <beans:property name="realmName" value="CDBRealm" />
+        <beans:property name="key" value="TheMostSecretSecret" />
+        <beans:property name="nonceValiditySeconds" value="10" />
+    </beans:bean>
+
+    <http use-expressions="false" auto-config="true" entry-point-ref="digestEntryPoint">
+        <intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/dashboard" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/**" access="ROLE_USER" />
+        <access-denied-handler error-page="/403" />
+        <form-login/>
+        <logout logout-url="/logout" />
+    </http>
+
+</beans:beans>

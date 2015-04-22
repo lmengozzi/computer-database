@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-// TODO Finish CompanyManager
 @Repository
 @Primary
 public class CompanyDAO implements ICompanyManager {
@@ -51,7 +50,6 @@ public class CompanyDAO implements ICompanyManager {
 	}
 
 	@Override
-	// TODO Save the company id
 	public void create(Company company) {
 		sessionFactory.getCurrentSession().save(company);
 	}

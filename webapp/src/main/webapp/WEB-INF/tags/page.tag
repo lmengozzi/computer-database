@@ -1,8 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="mylib" tagdir="/WEB-INF/tags" %>
-<%@ attribute name="currentPageNumber" required="true"
+<%@ attribute name="page" required="true"
               type="java.lang.Integer" description="Sets the number of pages." %>
-<%@ attribute name="resultsPerPage" required="true"
+<%@ attribute name="pageSize" required="true"
               type="java.lang.Integer"
               description="Sets the number of results per page." %>
 <%@ attribute name="paginationStart" required="true"
@@ -12,16 +12,16 @@
               type="java.lang.Integer"
               description="Sets at which page the pagination finishes." %>
 <c:choose>
-    <c:when test="${currentPageNumber > 1}">
-        <c:set var="lower" value="${currentPageNumber - 1}"/>
+    <c:when test="${page > 1}">
+        <c:set var="lower" value="${page - 1}"/>
     </c:when>
     <c:otherwise>
         <c:set var="lower" value="1"/>
     </c:otherwise>
 </c:choose>
 <c:choose>
-    <c:when test="${currentPageNumber < totalPageNumber}">
-        <c:set var="higher" value="${currentPageNumber + 1}"/>
+    <c:when test="${page < totalPageNumber}">
+        <c:set var="higher" value="${page + 1}"/>
     </c:when>
     <c:otherwise>
         <c:set var="higher" value="${totalPageNumber}"/>
@@ -29,7 +29,7 @@
 </c:choose>
 <div class="btn-group btn-group-sm pull-right" role="group">
     <form action="" method="GET">
-        <input type="hidden" name="page" value="${currentPageNumber}"/>
+        <input type="hidden" name="page" value="${page}"/>
         <input type="hidden" name="search" value="${search}"/>
         <input type="hidden" name="orderBy" value="${orderBy}"/>
         <input type="hidden" name="asc" value="${asc}"/>
@@ -49,8 +49,8 @@
         <li><a
                 href="
 <mylib:link
-target="app"
-resultsPerPage="${resultsPerPage}"
+target="dashboard"
+resultsPerPage="${pageSize}"
 search="${search}"
 page="${lower}"
 orderBy="${orderBy}"
@@ -64,8 +64,8 @@ ascendent="${asc}"
             <li><a
                     href="
 <mylib:link
-target="app"
-resultsPerPage="${resultsPerPage}"
+target="dashboard"
+resultsPerPage="${pageSize}"
 search="${search}"
 page="${i}"
 orderBy="${orderBy}"
@@ -77,8 +77,8 @@ ascendent="${asc}"
         <li><a
                 href="
 <mylib:link
-target="app"
-resultsPerPage="${resultsPerPage}"
+target="dashboard"
+resultsPerPage="${pageSize}"
 search="${search}"
 page="${higher}"
 orderBy="${orderBy}"

@@ -25,9 +25,9 @@ import com.excilys.lmengozzi.cdb.webapp.dto.ComputerDTO;
 
 @Controller
 @RequestMapping("/dashboard")
-public class DashboardController {
+public class MainController {
 
-	final Logger logger = LoggerFactory.getLogger(DashboardController.class);
+	final Logger logger = LoggerFactory.getLogger(MainController.class);
 	private static final int PAGE_NUMBER = 5;
 
 	@Autowired
@@ -41,7 +41,7 @@ public class DashboardController {
 
 	private Map<String, String> orderByStrings = new HashMap<>();
 
-	public DashboardController() {
+	public MainController() {
 		super();
 		orderByStrings.put("id", "computer.id");
 		orderByStrings.put("name", "computer.name");

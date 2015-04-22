@@ -16,7 +16,6 @@
 </head>
 <body>
 	<jsp:include page="navbar.jsp" />
-
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">${computerCount} Computers found</h1>
@@ -24,7 +23,7 @@
 				<div class="pull-left">
 					<form id="searchForm" action="dashboard" method="GET"
 						class="form-inline">
-						<input type="hidden" name="resultsPerPage"
+						<input type="hidden" name="pageSize"
 							value="${pageSize}" /> <input type="hidden" name="page"
 							value="${page}" /> <input type="hidden" name="orderBy"
 							value="${orderBy}" /> <input type="hidden" name="asc"
@@ -42,6 +41,8 @@
 							code="dashboard.add_computer" /></a> <a class="btn btn-default"
 						id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message
 							code="dashboard.edit" /></a>
+					<a class="btn btn-danger" id="logout" href="logout"><spring:message
+							code="application.logout" /></a>
 				</div>
 			</div>
 		</div>
@@ -94,8 +95,8 @@
 
 	<footer class="navbar-fixed-bottom">
 		<footer class="navbar-fixed-bottom">
-			<mylib:page currentPageNumber="${currentPageNumber}" resultsPerPage="${resultsPerPage}"
-							  paginationStart="${paginationStart}" paginationEnd="${paginationFinish}"/>
+			<mylib:page page="${page}" pageSize="${pageSize}"
+							  paginationStart="${paginationStart}" paginationEnd="${paginationEnd}"/>
 		</footer>
 	</footer>
 	<script src="js/jquery.min.js"></script>

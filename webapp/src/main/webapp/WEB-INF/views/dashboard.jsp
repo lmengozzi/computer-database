@@ -10,6 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <!-- Bootstrap -->
+	<!-- building with Maven imposes to insert the name of the war -->
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="css/main.css" rel="stylesheet" media="screen">
@@ -41,8 +42,6 @@
 							code="dashboard.add_computer" /></a> <a class="btn btn-default"
 						id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message
 							code="dashboard.edit" /></a>
-					<a class="btn btn-danger" id="logout" href="logout"><spring:message
-							code="application.logout" /></a>
 				</div>
 			</div>
 		</div>
@@ -62,11 +61,28 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
+
 						<!-- Table Headers -->
-						<th>Computer name</th>
-						<th>Introduced date</th>
-						<th>Discontinued date</th>
-						<th>Company</th>
+						<th>
+							<a href="
+						<mylib:link target="dashboard" page="${page}" ascendent="true" orderBy="name" resultsPerPage="${pageSize}" search="${search}"/>
+						"><spring:message code="computer_name"/></a>
+							<a href="
+						<mylib:link target="dashboard" page="${page}" ascendent="false" orderBy="name" resultsPerPage="${pageSize}" search="${search}"/>
+						"></a></th>
+						<th>
+							<a href="
+						<mylib:link target="dashboard" page="${page}" ascendent="${asc}" orderBy="introduced" resultsPerPage="${pageSize}" search="${search}"/>
+						"></a><spring:message code="introduced_date"/></th>
+						<th>
+							<a href="
+						<mylib:link target="dashboard" page="${page}" ascendent="${asc}" orderBy="discontinued" resultsPerPage="${pageSize}" search="${search}"/>
+						"></a><spring:message code="discontinued_date"/></th>
+						<th>
+							<a href="
+						<mylib:link target="dashboard" page="${page}" ascendent="${asc}" orderBy="" resultsPerPage="${pageSize}" search="${search}"/>
+						"></a><spring:message code="company"/></th>
+
 
 					</tr>
 				</thead>

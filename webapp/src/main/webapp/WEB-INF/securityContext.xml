@@ -34,17 +34,19 @@
 
     <beans:bean id="digestEntryPoint"
                 class="org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint">
-        <beans:property name="realmName" value="CDBRealm" />
+        <beans:property name="realmName" value="Authentication via Digest Authentication" />
         <beans:property name="key" value="TheMostSecretSecret" />
         <beans:property name="nonceValiditySeconds" value="10" />
     </beans:bean>
 
     <http use-expressions="false" auto-config="true" entry-point-ref="digestEntryPoint">
         <intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/logout" access="IS_AUTHENTICATED_ANONYMOUSLY" />
         <intercept-url pattern="/dashboard" access="IS_AUTHENTICATED_ANONYMOUSLY" />
         <intercept-url pattern="/**" access="ROLE_USER" />
         <access-denied-handler error-page="/403" />
         <form-login/>
+        <custom-filter ref="digestFilter" after="BASIC_AUTH_FILTER" />
         <logout logout-url="/logout" />
     </http>
 

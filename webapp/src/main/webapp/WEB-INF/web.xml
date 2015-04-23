@@ -4,11 +4,11 @@
          version="3.0">
 
     <display-name>Computer Database</display-name>
-
+<!--
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>WEB-INF/views/index.jsp</welcome-file>
     </welcome-file-list>
-
+-->
     <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>

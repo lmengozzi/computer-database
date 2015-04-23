@@ -32,11 +32,11 @@ public class ComputerDAO implements IComputerManager {
 	}
 
 	@Override
-	public List<Computer> findPage(int start, int end, String orderBy,
+	public List<Computer> findPage(int page, int pageSize, String orderBy,
 								   boolean ascending, String search) {
 		return createCriteria()
 				.add(Restrictions.like("name", search, MatchMode.ANYWHERE))
-				.setFirstResult(start).setMaxResults(end - start)
+				.setFirstResult(page*pageSize).setMaxResults(pageSize)
 				.addOrder(ascending ? Order.asc("name") : Order.desc("name"))
 				.list();
 	}

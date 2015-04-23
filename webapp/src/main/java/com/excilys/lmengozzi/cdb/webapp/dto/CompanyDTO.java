@@ -1,15 +1,22 @@
 package com.excilys.lmengozzi.cdb.webapp.dto;
 
 import com.excilys.lmengozzi.cdb.persistence.entity.Company;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.*;
 
+@Component
 public class CompanyDTO {
 
 	@NotNull
 	long id;
-	@NotNull(message = "You need to enter a name. Please.")
+	@NotNull
 	String name;
+
+	public CompanyDTO() {
+
+	}
 
 	public CompanyDTO(Company company) {
 		this.id = company.getId();

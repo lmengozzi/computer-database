@@ -12,11 +12,11 @@ public class ComputerDTO {
 
 	@NotNull
 	private long id;
-	@NotNull(message = "You need to enter a name. Please.")
+	@NotNull
 	private String name;
 	private String introduced;
 	private String discontinued;
-	private CompanyDTO company;
+	private CompanyDTO companyDTO;
 
 	public ComputerDTO() {
 	}
@@ -35,9 +35,9 @@ public class ComputerDTO {
 			discontinued = null;
 		}
 		if (computer.getCompany() != null) {
-			company = new CompanyDTO(computer.getCompany());
+			companyDTO = new CompanyDTO(computer.getCompany());
 		} else {
-			company = null;
+			companyDTO = null;
 		}
 	}
 
@@ -74,10 +74,10 @@ public class ComputerDTO {
 	}
 
 	public CompanyDTO getCompanyDTO() {
-		return company;
+		return companyDTO;
 	}
 
 	public void setCompanyDTO(CompanyDTO company) {
-		this.company = company;
+		this.companyDTO = company;
 	}
 }

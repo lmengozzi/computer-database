@@ -83,7 +83,7 @@ public class Computer {
 			buffer.append(", discontinued: ");
 			buffer.append(discontinued);
 		}
-		if (company != null) {
+		if (company != null && company.getName() != null) {
 			buffer.append(", manufacturer: ");
 			buffer.append(company);
 		}

@@ -32,8 +32,7 @@ public class CliApp {
 	public static void main(String[] args) {
 		logger.info("CLI Started.");
 		GenericXmlApplicationContext appContext = new GenericXmlApplicationContext();
-		appContext.load("applicationContext.xml");
-		appContext.load("persistenceContext.xml");
+		appContext.load("businessContext.xml");
 		appContext.refresh();
 		computerService = appContext.getBean(IComputerService.class);
 		companyManager = appContext.getBean(ICompanyService.class);

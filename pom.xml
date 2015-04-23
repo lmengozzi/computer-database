@@ -78,12 +78,23 @@
 		</pluginManagement>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.excilys.lmengozzi.cdb.CliApp</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>${version.plugin.tomcat}</version>
 				<configuration>
 					<url>http://localhost:8080/manager/text/</url>
-					<path>/app</path>
+					<path>/</path>
 					<server>my-tomcat</server>
 				</configuration>
 			</plugin>
@@ -182,11 +193,6 @@
 				<artifactId>spring-security-taglibs</artifactId>
 				<version>${version.dependency.spring.security}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.springframework.security</groupId>
-				<artifactId>spring-security-web</artifactId>
-				<version>${version.dependency.spring.security}</version>
-			</dependency>
 			
 			<!-- Hibernate -->
 			<dependency>
@@ -227,6 +233,7 @@
 				<groupId>javax.servlet</groupId>
 				<artifactId>jstl</artifactId>
 				<version>${version.dependency.jstl}</version>
+				<scope>runtime</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

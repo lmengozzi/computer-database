@@ -23,8 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.excilys.lmengozzi.cdb.persistence.entity.Computer;
 import com.excilys.lmengozzi.cdb.webapp.dto.ComputerDTO;
 
+import javax.validation.Valid;
+
 @Controller
-@RequestMapping("/dashboard")
 public class MainController {
 
 	final Logger logger = LoggerFactory.getLogger(MainController.class);
@@ -50,7 +51,7 @@ public class MainController {
 		orderByStrings.put("company", "company.name");
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value = {"/", "dashboard"},method = RequestMethod.GET)
 	public String showDashboard(
 			@RequestParam(required = false) Integer pageSize,
 			@RequestParam(required = false) Integer page,
@@ -58,7 +59,7 @@ public class MainController {
 			@RequestParam(required = false) String orderBy,
 			@RequestParam(required = false) Boolean asc,
 			Model model) {
-		logger.trace("GET called on /dashboard");
+		logger.trace("GET dashboard, initializing...");
 		long pageAmount;
 		List<Computer> computerPage;
 		if (page == null) {
@@ -91,14 +92,14 @@ public class MainController {
 				"paginationEnd",
 				Math.min(page + PAGE_NUMBER,
 						pageAmount + 1));
-		model.addAttribute("page", page + 1);
+		model.addAttribute("page", page);
 		model.addAttribute("pageAmount",
 				pageAmount + 1);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("search", search);
 		model.addAttribute("orderBy", orderBy);
 		model.addAttribute("asc", asc);
-		logger.trace("GET called on /dashboard : Showing dashboard, response sent");
+		logger.trace("dashboard ready.");
 		return "dashboard";
 	}
 
@@ -114,12 +115,12 @@ public class MainController {
 
 	@RequestMapping(value = "/addComputer", method = RequestMethod.POST)
 	public String addComputer(
-			@ModelAttribute ComputerDTO dto,
+			@ModelAttribute("computerDTO") @Valid ComputerDTO computerDTO,
 			BindingResult bindingResult,
 			Model model) {
-		computerDTOValidator.validate(dto, bindingResult);
+		computerDTOValidator.validate(computerDTO, bindingResult);
 		if (!bindingResult.hasErrors()) {
-			Computer computer = computerDTOMapper.toComputer(dto);
+			Computer computer = computerDTOMapper.toComputer(computerDTO);
 			computerService.create(computer);
 			model.addAttribute("show", true);
 			model.addAttribute("showSuccess", true);
@@ -129,6 +130,7 @@ public class MainController {
 		} else {
 			model.addAttribute("show", true);
 			model.addAttribute("showSuccess", false);
+			model.addAttribute("companies", companyService.findAll());
 			model.addAttribute("message", bindingResult.getAllErrors());
 		}
 		return "addComputer";

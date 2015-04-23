@@ -23,8 +23,8 @@ public class DateValidator {
 			return false;
 		}
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-		LocalDate temp = LocalDate.parse(date, formatter);
-		return isDayFromMonthAndYear(temp.getDayOfMonth(), temp.getMonthValue(), temp.getYear());
+		LocalDate localDate = LocalDate.parse(date, formatter);
+		return isDayFromMonthAndYear(localDate.getDayOfMonth(), localDate.getMonthValue(), localDate.getYear());
 	}
 
 	public boolean isDayFromMonthAndYear(int day, int month, int year) {

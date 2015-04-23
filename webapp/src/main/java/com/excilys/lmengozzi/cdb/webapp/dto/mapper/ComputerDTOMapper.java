@@ -75,7 +75,7 @@ public class ComputerDTOMapper {
 		} else {
 			bean.setDiscontinued(null);
 		}
-		if (dto.getCompanyDTO() != null) {
+		if (dto.getCompanyDTO().getId() != 0) {
 			bean.setCompany(companyDTOMapper.toComputer(dto.getCompanyDTO()));
 		} else {
 			bean.setCompany(null);

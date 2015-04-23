@@ -27,7 +27,7 @@ public class ComputerService implements IComputerService {
 	@Override
 	public List<Computer> findPage(int page, int pageSize, String orderBy,
 								   boolean ascending, String search) {
-		return manager.findPage(page, pageSize, orderBy, ascending, search);
+		return manager.findPage(page-1, pageSize, orderBy, ascending, search);
 	}
 
 	@Override

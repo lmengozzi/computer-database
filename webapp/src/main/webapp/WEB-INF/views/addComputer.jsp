@@ -9,12 +9,12 @@
     <title>Computer Database</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/font-awesome.css" rel="stylesheet" media="screen">
-    <link href="css/main.css" rel="stylesheet" media="screen">
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/i18n.js"></script>
+    <link href="../../css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="../../css/font-awesome.css" rel="stylesheet" media="screen">
+    <link href="../../css/main.css" rel="stylesheet" media="screen">
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/i18n.js"></script>
     <script type="text/javascript">
         var message_validation_wrong_name_format = "<spring:message code='validation.wrong.name.format'/>";
         var message_validation_right_date_format = "<spring:message code='validation.right.date.format'/>";
@@ -70,9 +70,9 @@
                             <span id="discontinuedMessage"></span>
                         </div>
                         <div class="form-group">
-                            <form:label path="companyId" for="companyId"><spring:message code="company"/></form:label>
-                            <form:select path="companyId"
-                                         class="form-control" id="companyId" name="companyId">
+                            <form:label path="companyDTO.id" for="companyDTO"><spring:message code="company"/></form:label>
+                            <form:select path="companyDTO.id"
+                                         class="form-control" id="companyDTO" name="companyDTO">
                                 <option value="0">--</option>
                                 <c:forEach items="${companies}" var="company">
                                     <option value="${company.id}">${company.name}</option>

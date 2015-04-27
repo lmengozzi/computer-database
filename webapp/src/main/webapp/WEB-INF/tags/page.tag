@@ -33,13 +33,13 @@
         <input type="hidden" name="search" value="${search}"/>
         <input type="hidden" name="orderBy" value="${orderBy}"/>
         <input type="hidden" name="asc" value="${asc}"/>
-        <button type="submit" name="resultsPerPage" class="btn btn-default"
+        <button type="submit" name="pageSize" class="btn btn-default"
                 value="10">10
         </button>
-        <button type="submit" name="resultsPerPage" class="btn btn-default"
+        <button type="submit" name="pageSize" class="btn btn-default"
                 value="50">50
         </button>
-        <button type="submit" name="resultsPerPage" class="btn btn-default"
+        <button type="submit" name="pageSize" class="btn btn-default"
                 value="100">100
         </button>
     </form>

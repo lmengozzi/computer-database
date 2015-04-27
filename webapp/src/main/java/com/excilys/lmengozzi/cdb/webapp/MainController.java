@@ -59,7 +59,7 @@ public class MainController {
 			@RequestParam(required = false) String orderBy,
 			@RequestParam(required = false) Boolean asc,
 			Model model) {
-		logger.trace("GET dashboard, initializing...");
+		logger.trace("GET Dashboard : initializing...");
 		long pageAmount;
 		List<Computer> computerPage;
 		if (page == null) {
@@ -99,17 +99,17 @@ public class MainController {
 		model.addAttribute("search", search);
 		model.addAttribute("orderBy", orderBy);
 		model.addAttribute("asc", asc);
-		logger.trace("dashboard ready.");
+		logger.trace("Dashboard ready.");
 		return "dashboard";
 	}
 
 	@RequestMapping(value = "/addComputer", method = RequestMethod.GET)
 	public String showPage(Model model) {
-		logger.trace("GET called on /addComputer : Showing computer add page, start up");
+		logger.trace("GET /addComputer : initializing...");
 		model.addAttribute("computerDTO", new ComputerDTO());
 		model.addAttribute("show", false);
 		model.addAttribute("companies", companyService.findAll());
-		logger.trace("GET called on /addComputer : Showing computer add page, response sent");
+		logger.trace("/addComputer ready.");
 		return "addComputer";
 	}
 

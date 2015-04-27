@@ -10,6 +10,7 @@
 		<module>persistence</module>
 		<module>cli</module>
 		<module>webapp</module>
+		<module>web-service</module>
 	</modules>
 
 	<properties>
@@ -29,6 +30,8 @@
 		<version.dependency.apache.validator>1.4.1</version.dependency.apache.validator>
 		<version.dependency.spring.security>3.2.7.RELEASE</version.dependency.spring.security>
 		<version.dependency.jstl>1.2</version.dependency.jstl>
+		<version.dependency.resteasy>3.0.11.Final</version.dependency.resteasy>
+		<version.dependency.jackson>2.5.3</version.dependency.jackson>
 
 		<!-- Plugins versions -->
 		<version.plugin.war>2.6</version.plugin.war>
@@ -193,7 +196,25 @@
 				<artifactId>spring-security-taglibs</artifactId>
 				<version>${version.dependency.spring.security}</version>
 			</dependency>
-			
+
+			<!-- REST -->
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jaxrs</artifactId>
+				<version>${version.dependency.resteasy}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-spring</artifactId>
+				<version>${version.dependency.resteasy}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.resteasy</groupId>
+				<artifactId>resteasy-jackson2-provider</artifactId>
+				<version>${version.dependency.resteasy}</version>
+			</dependency>
+
 			<!-- Hibernate -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
@@ -228,6 +249,14 @@
 				<version>${version.dependency.apache.validator}</version>
 			</dependency>
 
+			<!-- Jackson -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${version.dependency.jackson}</version>
+			</dependency>
+
+
 			<!-- JSTL -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
@@ -237,14 +266,4 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	<repositories>
-    <repository>
-        <id>spring-snapshots</id>
-        <name>Spring Snapshots</name>
-        <url>http://repo.spring.io/snapshot</url>
-        <snapshots>
-            <enabled>true</enabled>
-        </snapshots>
-    </repository>
-</repositories>
 </project>

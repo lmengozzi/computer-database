@@ -28,7 +28,7 @@
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>
         </property>
-        <property name="packagesToScan" value="com.excilys.lmengozzi.cdb.persistence.entity"/>
+        <property name="packagesToScan" value="com.excilys.lmengozzi.cdb.entity"/>
     </bean>
     <context:component-scan base-package="com.excilys.lmengozzi.cdb.persistence"/>
 

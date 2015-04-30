@@ -8,13 +8,18 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.excilys.lmengozzi.cdb.persistence.service.ICompanyService;
+import com.excilys.lmengozzi.cdb.business.service.ICompanyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
-import com.excilys.lmengozzi.cdb.persistence.entity.Computer;
-import com.excilys.lmengozzi.cdb.persistence.service.IComputerService;
+import com.excilys.lmengozzi.cdb.entity.Computer;
+import com.excilys.lmengozzi.cdb.business.service.IComputerService;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 
 public class CliApp {
 
@@ -26,6 +31,7 @@ public class CliApp {
 			.compile(DATE_REGEX);
 
 	private static final Logger logger = LoggerFactory.getLogger(CliApp.class);
+	private static final Client client = ClientBuilder.newClient();
 
 	private static final int PAGESIZE = 50;
 
@@ -33,6 +39,7 @@ public class CliApp {
 		logger.info("CLI Started.");
 		GenericXmlApplicationContext appContext = new GenericXmlApplicationContext();
 		appContext.load("businessContext.xml");
+		appContext.load("bindingContext.xml");
 		appContext.refresh();
 		computerService = appContext.getBean(IComputerService.class);
 		companyManager = appContext.getBean(ICompanyService.class);
@@ -42,7 +49,7 @@ public class CliApp {
 
 	private static void CLI() {
 
-		List<String> choices = new ArrayList<String>();
+		List<String> choices = new ArrayList<>();
 		choices.add("a");
 		choices.add("b");
 		choices.add("c");
@@ -104,21 +111,23 @@ public class CliApp {
 		choices.add("y");
 		choices.add("n");
 
+		List<Computer> computers;
+		int page = 1;
+		boolean exit = false;
+
 		System.out.println("List computers (pages of 50 computers) :");
 
-		List<Computer> computers;
-		int page = 0;
-
-		boolean exit = false;
 		while (true) {
-			computers = computerService.findPage(page, PAGESIZE);
-
+			// GenericType abstract class is passed to methods with parameterized types as arguments.
+			// Passing List<YourObject>.class is tempting but is illegal and won't compile
+			computers = client.target("http://localhost:8080/rest/computer/page?number=" + page + "&pageSize=" + PAGESIZE + "&orderBy=name&ascending=true")
+					.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Computer>>() {
+					});
 			printComputers(computers);
 			if (computers.size() < PAGESIZE) {
 				System.out.println("List ended.");
 				break;
 			}
-
 			String choice = null;
 			while (choice == null || !choices.contains(choice.toLowerCase())) {
 				System.out.println("\nShow more computers ? [Y/N] :");
@@ -168,15 +177,13 @@ public class CliApp {
 				.println("Enter computer introduced date (yyyy/MM/dd) or leave blank : ");
 
 		scannedLine = scanDate(scanner);
-		introduced = scannedLine == null ? null : LocalDateTime.parse(
-				scannedLine + " 00:00:00", formatter);
+		introduced = scannedLine == null ? null : LocalDateTime.parse(scannedLine + " 00:00:00", formatter);
 
 		System.out
 				.println("Enter computer discontinued date (yyyy/MM/dd) or leave blank : ");
 
 		scannedLine = scanDate(scanner);
-		discontinued = scannedLine == null ? null : LocalDateTime.parse(
-				scannedLine + " 00:00:00", formatter);
+		discontinued = scannedLine == null ? null : LocalDateTime.parse(scannedLine + " 00:00:00", formatter);
 
 		Computer computer = new Computer(name);
 		computer.setIntroduced(introduced);

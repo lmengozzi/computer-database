@@ -2,7 +2,7 @@ package com.excilys.lmengozzi.cdb.persistence;
 
 import java.util.List;
 
-import com.excilys.lmengozzi.cdb.persistence.entity.Company;
+import com.excilys.lmengozzi.cdb.entity.Company;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
@@ -50,8 +50,8 @@ public class CompanyDAO implements ICompanyManager {
 	}
 
 	@Override
-	public void create(Company company) {
-		sessionFactory.getCurrentSession().save(company);
+	public long create(Company company) {
+		return (long) sessionFactory.getCurrentSession().save(company);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package com.excilys.lmengozzi.cdb.persistence;
 
-import com.excilys.lmengozzi.cdb.persistence.entity.Company;
-import com.excilys.lmengozzi.cdb.persistence.entity.Computer;
+import com.excilys.lmengozzi.cdb.entity.Company;
+import com.excilys.lmengozzi.cdb.entity.Computer;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
@@ -57,8 +57,8 @@ public class ComputerDAO implements IComputerManager {
 	}
 
 	@Override
-	public void create(Computer computer) {
-		sessionFactory.getCurrentSession().save(computer);
+	public long create(Computer computer) {
+		return (long) sessionFactory.getCurrentSession().save(computer);
 	}
 
 	@Override

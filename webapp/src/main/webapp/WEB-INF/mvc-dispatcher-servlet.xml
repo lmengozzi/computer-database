@@ -33,9 +33,12 @@
         <property name="suffix" value=".jsp"/>
     </bean>
     <import resource="classpath:businessContext.xml"/>
+    <import resource="classpath:bindingContext.xml"/>
     <import resource="securityContext.xml"/>
 
     <context:component-scan base-package="com.excilys.lmengozzi.cdb.webapp"/>
+    <context:component-scan base-package="com.excilys.lmengozzi.cdb.binding"/>
+    <context:component-scan base-package="com.excilys.lmengozzi.cdb.validation"/>
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven/>
 </beans>

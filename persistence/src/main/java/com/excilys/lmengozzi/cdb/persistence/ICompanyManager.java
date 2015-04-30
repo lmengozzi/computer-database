@@ -1,11 +1,11 @@
 package com.excilys.lmengozzi.cdb.persistence;
 
-import com.excilys.lmengozzi.cdb.persistence.entity.Company;
+import com.excilys.lmengozzi.cdb.entity.Company;
 
 public interface ICompanyManager extends IDAO<Company>{
 	Company findByName(String name);
 
-	void create(Company company);
+	long create(Company company);
 
 	void delete(long id);
 }

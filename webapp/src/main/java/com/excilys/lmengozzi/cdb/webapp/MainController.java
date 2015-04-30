@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.excilys.lmengozzi.cdb.persistence.service.ICompanyService;
-import com.excilys.lmengozzi.cdb.persistence.service.IComputerService;
-import com.excilys.lmengozzi.cdb.webapp.dto.mapper.ComputerDTOMapper;
-import com.excilys.lmengozzi.cdb.webapp.dto.validator.ComputerDTOValidator;
+import com.excilys.lmengozzi.cdb.business.service.ICompanyService;
+import com.excilys.lmengozzi.cdb.business.service.IComputerService;
+import com.excilys.lmengozzi.cdb.binding.dto.mapper.ComputerDTOMapper;
+import com.excilys.lmengozzi.cdb.binding.dto.validator.ComputerDTOValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.excilys.lmengozzi.cdb.persistence.entity.Computer;
-import com.excilys.lmengozzi.cdb.webapp.dto.ComputerDTO;
+import com.excilys.lmengozzi.cdb.entity.Computer;
+import com.excilys.lmengozzi.cdb.binding.dto.ComputerDTO;
 
 import javax.validation.Valid;
 

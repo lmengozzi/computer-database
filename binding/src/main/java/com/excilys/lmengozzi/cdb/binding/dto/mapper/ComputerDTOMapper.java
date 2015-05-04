@@ -49,11 +49,12 @@ public class ComputerDTOMapper {
 		if (dto == null) {
 			return null;
 		}
+
 		String pattern = messageSource.getMessage("validation.date.format", null, LocaleContextHolder.getLocale());
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-		Computer bean = new Computer();
-		bean.setId(dto.getId());
-		bean.setName(dto.getName());
+
+		Computer bean = Computer.builder().id(dto.getId()).name(dto.getName()).build();
+
 		if (dto.getIntroduced() != null) {
 			if (dateValidator.isValid(dto.getIntroduced())) {
 				bean.setIntroduced(LocalDateTime.of(LocalDate.parse(dto.getIntroduced(), formatter), LocalTime.MIDNIGHT));

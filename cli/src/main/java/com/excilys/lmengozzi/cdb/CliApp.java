@@ -1,5 +1,17 @@
 package com.excilys.lmengozzi.cdb;
 
+import com.excilys.lmengozzi.cdb.business.service.ICompanyService;
+import com.excilys.lmengozzi.cdb.business.service.IComputerService;
+import com.excilys.lmengozzi.cdb.entity.Company;
+import com.excilys.lmengozzi.cdb.entity.Computer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.support.GenericXmlApplicationContext;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -8,45 +20,40 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.excilys.lmengozzi.cdb.business.service.ICompanyService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.support.GenericXmlApplicationContext;
-
-import com.excilys.lmengozzi.cdb.entity.Computer;
-import com.excilys.lmengozzi.cdb.business.service.IComputerService;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-
+/**
+ * The main CLI class.
+ */
 public class CliApp {
 
 	private static IComputerService computerService;
-	private static ICompanyService companyManager;
 
+	// This regex validates a date. This is an alternative to an actual validator.
 	private final static String DATE_REGEX = "^(0[1-9]|1[0-9]|2[0-8]|29((?=-([0][13-9]|1[0-2])|(?=-(0[1-9]|1[0-2])-([0-9]{2}(0[48]|[13579][26]|[2468][048])|([02468][048]|[13579][26])00))))|30(?=-(0[13-9]|1[0-2]))|31(?=-(0[13578]|1[02])))-(0[1-9]|1[0-2])-[0-9]{4}$";
-	private final static Pattern DATE_PATTERN = java.util.regex.Pattern
-			.compile(DATE_REGEX);
+	private final static Pattern DATE_PATTERN = java.util.regex.Pattern.compile(DATE_REGEX);
 
-	private static final Logger logger = LoggerFactory.getLogger(CliApp.class);
-	private static final Client client = ClientBuilder.newClient();
+	// TODO Move REST url to somewhere convenient
+	private static final String RESTURL = "http://localhost:8080/rest/";
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(CliApp.class);
+	private static final Client CLIENT = ClientBuilder.newClient();
 
 	private static final int PAGESIZE = 50;
 
 	public static void main(String[] args) {
-		logger.info("CLI Started.");
+		LOGGER.info("CLI Started.");
 		GenericXmlApplicationContext appContext = new GenericXmlApplicationContext();
 		appContext.load("businessContext.xml");
 		appContext.load("bindingContext.xml");
 		appContext.refresh();
 		computerService = appContext.getBean(IComputerService.class);
-		companyManager = appContext.getBean(ICompanyService.class);
 		CLI();
 		appContext.close();
 	}
 
+	/**
+	 * CLI Menu.
+	 * This method must be called at the end of all the other CLI methods.
+	 */
 	private static void CLI() {
 
 		List<String> choices = new ArrayList<>();
@@ -64,13 +71,11 @@ public class CliApp {
 		System.out.println("	- Main menu, type :");
 		System.out.println("	- \"a\" to list computers");
 		System.out.println("	- \"b\" to list companies");
-		System.out.println("	- \"c\" to show computer details ");
-		System.out.println("	- \"d\" to create a computer");
-		System.out.println("	- \"e\" to update a computer");
-		System.out.println("	- \"f\" to delete a computer");
-		System.out.println("	- \"g\" to delete a company");
+		System.out.println("	- \"c\" to create a computer");
+		System.out.println("	- \"d\" to delete a company");
+		System.out.println("	- \"e\" to delete a company");
 		System.out.println("	- Or \"exit\" to... you know, exit.");
-		@SuppressWarnings("resource")
+
 		Scanner scanner = new Scanner(System.in);
 		String choice = null;
 		while (choice == null || !choices.contains(choice.toLowerCase())) {
@@ -85,18 +90,9 @@ public class CliApp {
 				showCompanies();
 				break;
 			case "c":
-				showComputerDetails();
-				break;
-			case "d":
 				createComputer();
 				break;
-			case "e":
-				updateComputer();
-				break;
-			case "f":
-				deleteComputer();
-				break;
-			case "g":
+			case "d":
 				deleteCompany();
 				break;
 			case "exit":
@@ -107,7 +103,7 @@ public class CliApp {
 	private static void showComputers() {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
-		ArrayList<String> choices = new ArrayList<String>();
+		ArrayList<String> choices = new ArrayList<>();
 		choices.add("y");
 		choices.add("n");
 
@@ -120,7 +116,7 @@ public class CliApp {
 		while (true) {
 			// GenericType abstract class is passed to methods with parameterized types as arguments.
 			// Passing List<YourObject>.class is tempting but is illegal and won't compile
-			computers = client.target("http://localhost:8080/rest/computer/page?number=" + page + "&pageSize=" + PAGESIZE + "&orderBy=name&ascending=true")
+			computers = CLIENT.target(RESTURL + "computer/page?number=" + page + "&pageSize=" + PAGESIZE + "&orderBy=name&ascending=true")
 					.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Computer>>() {
 					});
 			printComputers(computers);
@@ -148,13 +144,10 @@ public class CliApp {
 	}
 
 	private static void showCompanies() {
-		System.out.println(companyManager.findAll());
+		System.out.println(CLIENT.target(RESTURL + "company/all")
+				.request(MediaType.APPLICATION_JSON).get(new GenericType<List<Company>>() {
+				}));
 		CLI();
-	}
-
-	//TODO CLI showComputerDetails()
-	private static void showComputerDetails() {
-
 	}
 
 	public static void createComputer() {
@@ -163,8 +156,10 @@ public class CliApp {
 		LocalDateTime introduced;
 		LocalDateTime discontinued;
 
-		DateTimeFormatter formatter = DateTimeFormatter
-				.ofPattern("uuuu/MM/dd HH:mm:ss");
+		// "HH:mm:ss" is unused but is required for LocalDateTime class to parse the scanned line.
+		// The user isn't required to supply anything more than the year, month and day, so appending " 00:00:00" to the scanned line is needed.
+		// TODO Find another workaround for date scanning with LocalDateTime
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
 
 		while (name == null) {
 			System.out.println("Enter computer name : ");
@@ -173,40 +168,25 @@ public class CliApp {
 
 		String scannedLine;
 
-		System.out
-				.println("Enter computer introduced date (yyyy/MM/dd) or leave blank : ");
+		System.out.println("Enter computer introduced date (yyyy/MM/dd) or leave blank : ");
 
 		scannedLine = scanDate(scanner);
 		introduced = scannedLine == null ? null : LocalDateTime.parse(scannedLine + " 00:00:00", formatter);
 
-		System.out
-				.println("Enter computer discontinued date (yyyy/MM/dd) or leave blank : ");
+		System.out.println("Enter computer discontinued date (yyyy/MM/dd) or leave blank : ");
 
 		scannedLine = scanDate(scanner);
 		discontinued = scannedLine == null ? null : LocalDateTime.parse(scannedLine + " 00:00:00", formatter);
 
-		Computer computer = new Computer(name);
-		computer.setIntroduced(introduced);
-		computer.setIntroduced(discontinued);
+		Computer computer = Computer.builder().name(name).introduced(introduced).discontinued(discontinued).build();
+
 		computerService.create(computer);
 		System.out.println("Insertion done.");
 		CLI();
 	}
 
-	//TODO CLI updateComputer()
-	private static void updateComputer() {
-
-	}
-
-	//TODO CLI deleteComputer()
-	private static void deleteComputer() {
-
-	}
-
-	//TODO CLI deleteCompany()
 	private static void deleteCompany() {
 
-		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		String name = null;
 
@@ -215,7 +195,23 @@ public class CliApp {
 			name = scanner.nextLine();
 		}
 
-		//companyManager.delete(name);
+		Company company = CLIENT.target(RESTURL + "company/byName" + name).request(MediaType.APPLICATION_JSON_TYPE).get(Company.class);
+		CLIENT.target(RESTURL + "computer/").request(MediaType.APPLICATION_JSON_TYPE).delete();
+		CLI();
+	}
+
+	private static void deleteComputer() {
+
+		Scanner scanner = new Scanner(System.in);
+		String name = null;
+
+		while (name == null) {
+			System.out.println("Enter computer name : ");
+			name = scanner.nextLine();
+		}
+
+		Company company = CLIENT.target(RESTURL + "computer/byName" + name).request(MediaType.APPLICATION_JSON_TYPE).get(Company.class);
+		CLIENT.target(RESTURL + "computer/").request(MediaType.APPLICATION_JSON_TYPE).delete();
 		CLI();
 	}
 

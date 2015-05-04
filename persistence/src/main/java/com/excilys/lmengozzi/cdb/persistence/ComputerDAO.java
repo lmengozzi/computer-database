@@ -20,8 +20,7 @@ import java.util.List;
 @Primary
 public class ComputerDAO implements IComputerManager {
 
-	public static final Logger LOGGER = LoggerFactory
-			.getLogger(ComputerDAO.class);
+	public static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAO.class);
 
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -36,7 +35,7 @@ public class ComputerDAO implements IComputerManager {
 								   boolean ascending, String search) {
 		return createCriteria()
 				.add(Restrictions.like("name", search, MatchMode.ANYWHERE))
-				.setFirstResult(page*pageSize).setMaxResults(pageSize)
+				.setFirstResult(page * pageSize).setMaxResults(pageSize)
 				.addOrder(ascending ? Order.asc("name") : Order.desc("name"))
 				.list();
 	}
@@ -63,9 +62,8 @@ public class ComputerDAO implements IComputerManager {
 
 	@Override
 	public void delete(long id) {
-		Computer c = new Computer();
-		c.setId(id);
-		sessionFactory.getCurrentSession().save(c);
+		Computer c = Computer.builder().id(id).build();
+		sessionFactory.getCurrentSession().delete(c);
 	}
 
 	@Override

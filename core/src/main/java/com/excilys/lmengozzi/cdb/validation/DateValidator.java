@@ -14,6 +14,7 @@ public class DateValidator {
 	private StringValidator stringValidator;
 	@Autowired
 	private MessageSource messageSource;
+
 	public boolean isValid(String date) {
 		if (!stringValidator.isValid(date)) {
 			return false;
@@ -24,10 +25,10 @@ public class DateValidator {
 		}
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
 		LocalDate localDate = LocalDate.parse(date, formatter);
-		return isDayFromMonthAndYear(localDate.getDayOfMonth(), localDate.getMonthValue(), localDate.getYear());
+		return isValid(localDate.getDayOfMonth(), localDate.getMonthValue(), localDate.getYear());
 	}
 
-	public boolean isDayFromMonthAndYear(int day, int month, int year) {
+	public boolean isValid(int day, int month, int year) {
 		if (month < 1 || month > 12) {
 			return false;
 		}

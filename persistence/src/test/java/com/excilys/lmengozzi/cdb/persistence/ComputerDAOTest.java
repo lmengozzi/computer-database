@@ -11,7 +11,8 @@ import org.springframework.context.support.GenericXmlApplicationContext;
  */
 
 //TODO ComputerManagerTest
-/* code below crashes with java.lang.NoClassDefFoundError: org/junit/runners/model/MultipleFailureException
+/* Code below crashes with java.lang.NoClassDefFoundError: org/junit/runners/model/MultipleFailureException
+ * It appears the unit test class SpringJUnit4ClassRunner is not found (it's known by all modules...)
 @ContextConfiguration(locations = { "classpath:persistenceContext.xml" })
 @RunWith(SpringJUnit4ClassRunner.class) */
 public class ComputerDAOTest {
@@ -19,7 +20,7 @@ public class ComputerDAOTest {
 	IComputerManager manager;
 
 	@Test
-	@Ignore("Spring test not functionnal")
+	@Ignore("Spring test not functional")
 	public void findPageTest() {
 		GenericXmlApplicationContext appContext = new GenericXmlApplicationContext();
 		appContext.load("applicationContext.xml");
@@ -29,31 +30,40 @@ public class ComputerDAOTest {
 		manager.findPage(0, 50, "name", true, "Amiga");
 		appContext.close();
 	}
-	/*
+
 	@Test
-	public void putTest() throws SQLException {
+	@Ignore
+	public void putTest() {
 		
 	}
 
 	@Test
-	public void findByIdTest() throws SQLException {
+	@Ignore
+	public void findByIdTest() {
 		
 	}
-	
-	public void findAllTest() throws SQLException {
+
+	@Test
+	@Ignore
+	public void findAllTest() {
 		
 	}
-	
-	public void getCountTest() throws SQLException {
+
+	@Test
+	@Ignore
+	public void getCountTest() {
 
 	}
-	
-	public void findPage() throws SQLException {
+
+	@Test
+	@Ignore
+	public void findPage() {
 		
 	}
-	
-	public void delete() throws SQLException {
+
+	@Test
+	@Ignore
+	public void delete() {
 		
 	}
-*/
 }

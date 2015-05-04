@@ -77,8 +77,7 @@ public class MainController {
 		if (orderBy == null) {
 			orderBy = "name";
 		}
-		computerPage = computerService.findPage(page, pageSize, orderBy, asc,
-				search);
+		computerPage = computerService.findPage(page, pageSize, orderBy, asc, search);
 		pageAmount = computerService.getCount();
 		// if amount of pages doesn't divide amount of items, add a page
 		pageAmount += (pageAmount % pageSize) == 0 ? 0 : 1;
